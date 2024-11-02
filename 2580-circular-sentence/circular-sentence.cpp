@@ -25,7 +25,6 @@ public:
                 }
             }else{
                 fst = word[0];
-                lst = word[n-1];
             }
             lst = word[n-1];
         }
