@@ -8,21 +8,8 @@ public:
             return false;
         }
 
-        for(int i = 0; i<n1; i++){
-            string currString = "";
-            int j = i;
-            while(j<n1){
-                currString += s[j];
-                j++;
-            }
-            for(int k = 0; k<i; k++){
-                currString += s[k];
-            }
+        string doubleString = s + s;
 
-            if(currString == goal){
-                return true;
-            }
-        }
-        return false;
+        return (doubleString.find(goal)!=string::npos)?true:false;
     }
 };
