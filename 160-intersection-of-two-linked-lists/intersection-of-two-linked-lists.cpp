@@ -8,34 +8,7 @@
  */
 class Solution {
 private:
-    ListNode* detectCycle(ListNode* head){
-        ListNode *slow = head;
-        ListNode *fast = head;
-
-        bool hasCycle = false;
-
-        while(fast && fast->next){
-            slow = slow->next;
-            fast = fast->next->next;
-
-            if(slow == fast){
-                hasCycle = true;
-                break;
-            }
-        }
-
-        if(!hasCycle){
-            return nullptr;
-        }
-
-        slow = head;
-        while(slow != fast){
-            slow  = slow->next;
-            fast = fast->next;
-        }
-
-        return slow;
-    }
+    
 
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
@@ -43,17 +16,42 @@ public:
             return nullptr;
         }
 
-        ListNode* mover = headA;
-        while(mover->next != nullptr){
-            mover = mover->next;
+        int len1 = 0;
+        int len2 = 0;
+
+        ListNode* tempA = headA;
+        ListNode* tempB = headB;
+
+        while(tempA){
+            len1++;
+            tempA = tempA->next;
         }
 
-        mover->next = headA;
+        while(tempB){
+            len2++;
+            tempB = tempB->next;
+        }
 
-        ListNode* result = detectCycle(headB);
+        if(len1 > len2){
+            int diff = len1 - len2;
+            while(diff--){
+                headA = headA->next;
+            }
+        }else{
+            int diff = len2 - len1;
+            while(diff--){
+                headB = headB->next;
+            }
+        }
 
-        mover->next = nullptr;
+        while(headA){
+            if(headA == headB){
+                return headA;
+            }
+            headA = headA->next;
+            headB = headB->next;
+        }
 
-        return result;
+        return nullptr;
     }
 };
