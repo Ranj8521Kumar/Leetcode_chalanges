@@ -1,32 +1,43 @@
 class Solution {
+private:
+    vector<int> compute_pie_table(string needle, int m) {
+        vector<int> pieTable(m, 0);
+        int k = 0;
+
+        for (int i = 1; i < m; i++) {
+            while (k > 0 && needle[k] != needle[i]) {
+                k = pieTable[k - 1];
+            }
+            if (needle[k] == needle[i]) {
+                k++;
+            }
+            pieTable[i] = k;
+        }
+        return pieTable;
+    }
+
 public:
     int strStr(string haystack, string needle) {
-        int n1 = haystack.size();
-        int n2 = needle.size();
+        int n = haystack.size();
+        int m = needle.size();
 
-        if(n2==0){
-            return 0;
-        }
+        if (m == 0) return 0; // Handle empty needle edge case
 
-        if(n1<n2){
-            return -1;
-        }
+        vector<int> pieTable = compute_pie_table(needle, m);
 
-        int idx = 0;
-        int i = 0; int j = 0;
-        while(i<n1){
-            if(needle[j] == haystack[i]){
-                i++,
+        int j = 0;
+
+        for (int i = 0; i < n; i++) {
+            while (j > 0 && needle[j] != haystack[i]) {
+                j = pieTable[j - 1];
+            }
+            if (needle[j] == haystack[i]) {
                 j++;
-
-                if(j == n2){
-                    return i - j;
+                if (j == m) {
+                    return i - m + 1; // Return starting index of match
                 }
-            }else{
-                i = i - j + 1;
-                j = 0;
-            }  
+            }
         }
-        return -1;
+        return -1; // No match found
     }
 };
