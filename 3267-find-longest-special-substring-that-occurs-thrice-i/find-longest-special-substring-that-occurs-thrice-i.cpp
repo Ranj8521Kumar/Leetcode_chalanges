@@ -22,7 +22,7 @@ public:
         }
 
         int maxSpecSubString  = -1;
-        for(auto str: mpp){
+        for(auto &str: mpp){
             if(str.second >= 3 && check(str.first)){
                 int n = str.first.size();
                 maxSpecSubString = max(maxSpecSubString, n);
