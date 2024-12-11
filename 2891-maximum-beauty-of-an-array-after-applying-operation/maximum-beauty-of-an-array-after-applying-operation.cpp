@@ -1,30 +1,26 @@
 class Solution {
 public:
     int maximumBeauty(vector<int>& nums, int k) {
-        if (nums.size() == 1)
-            return 1;
+        int n =  nums.size();
+        vector<pair<int, int>> intervals;
+
+        for(auto num: nums){
+            intervals.push_back({num - k, num + k});
+        }
+
+        sort(intervals.begin(), intervals.end());
+
+        queue<int> q;
 
         int maxBeauty = 0;
-        int maxValue = 0;
 
-        // Find the maximum value in the array
-        for (int num : nums) {
-            maxValue = max(maxValue, num);
-        }
+        for(auto &pair: intervals){
+            while(!q.empty() && q.front()<pair.first){
+                q.pop();
+            }
 
-        // Create a frequency difference array
-        vector<int> count(maxValue + 2, 0);
-
-        for (int num : nums) {
-            count[max(0, num - k)]++;
-            count[min(maxValue + 1, num + k + 1)]--;
-        }
-
-        // Calculate the prefix sum to find the maximum beauty
-        int currentSum = 0;
-        for (int val : count) {
-            currentSum += val;
-            maxBeauty = max(maxBeauty, currentSum);
+            q.push(pair.second);
+            maxBeauty = max(maxBeauty, (int)q.size());
         }
 
         return maxBeauty;
