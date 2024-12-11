@@ -1,26 +1,39 @@
 class Solution {
+private:
+    int binarySearch(vector<int> &nums, int y){
+        int left = 0;
+        int right = nums.size() - 1;
+
+        int result;
+
+        while(left<=right){
+            int mid = left + (right - left)/2;
+
+            if(nums[mid]<=y){
+                result = mid;
+                left  = mid+1; //for farthest point from x, which satisfy the condition for y<=x+2*k
+            }else{
+                right = mid - 1;
+            }
+        }
+        return result;
+    }
+
+
 public:
     int maximumBeauty(vector<int>& nums, int k) {
-        int n =  nums.size();
-        vector<pair<int, int>> intervals;
-
-        for(auto num: nums){
-            intervals.push_back({num - k, num + k});
-        }
-
-        sort(intervals.begin(), intervals.end());
-
-        queue<int> q;
+        sort(nums.begin(), nums.end());
 
         int maxBeauty = 0;
 
-        for(auto &pair: intervals){
-            while(!q.empty() && q.front()<pair.first){
-                q.pop();
-            }
+        int n = nums.size();
+        for(int i = 0; i<n; i++){
+            int x = nums[i];
+            int y = x + 2*k;
 
-            q.push(pair.second);
-            maxBeauty = max(maxBeauty, (int)q.size());
+            int j = binarySearch(nums, y);
+
+            maxBeauty = max(maxBeauty, j - i + 1);
         }
 
         return maxBeauty;
