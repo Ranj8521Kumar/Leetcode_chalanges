@@ -5,7 +5,7 @@ public:
 
         vector<bool> marked(n, false);
 
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> minHeap;
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> minHeap;
 
         for(int i = 0; i<n; i++){
             minHeap.push({nums[i], i});
