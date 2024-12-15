@@ -1,10 +1,10 @@
 class Solution {
 public:
-    #define p pair<double, int> //{gain, index}
+    //#define p pair<double, int> //{gain, index}
     double maxAverageRatio(vector<vector<int>>& classes, int extraStudents) {
         int n = classes.size();
 
-        priority_queue<p> maxHeap;
+        priority_queue<pair<double, int>> maxHeap;
 
         int index = 0;
         for(auto &vec: classes){
