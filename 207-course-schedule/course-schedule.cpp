@@ -1,16 +1,33 @@
 class Solution {
 public:
-//thought process:
-    //since for (a, b) => if I want to complete course a then first we have to complete b, means b->a, that is the meaninig of topological sort, 
+    bool DFS(vector<vector<int>>& adj, int u, vector<bool>& visited, vector<bool>& recVisited){
+        visited[u] = true;
+        recVisited[u] = true;
 
-    //let's take an example that (a, b) and (b, a) => there is a cycle in the graph for this, means completion of cource a is dependent of cource b and completion of course b is dependent on course a, so if cycle detected then we  can not finish all the course,
+        for(auto &v: adj[u]){
+            if(visited[v] && recVisited[v]){
+                return true;
+            }else{
+                if(!visited[v]){
+                    if(DFS(adj, v, visited, recVisited)){
+                        return true;
+                    }
+                }
+            }
+        }
 
-    //ApProach: Khan's Algorithm(cycle detection using BFS)
+        recVisited[u] = false;
+        return false;
+    }
 
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
         int v = numCourses;
         int n = prerequisites.size();
 
+        vector<bool> visited(v, false);
+        vector<bool> recVisited(v, false);
+
+        //Making Adjancy List
         vector<vector<int>> adj(v, vector<int> ());
 
         for(auto &vec: prerequisites){
@@ -20,40 +37,15 @@ public:
             adj[u].push_back(v);
         }
 
-        vector<int> indegree(v, 0);
         for(int u = 0; u<v; u++){
-            for(auto &v: adj[u]){
-                indegree[v]++;
-            }
-        }
-
-        queue<int> que;
-        for(int u = 0; u<v; u++){
-            if(indegree[u] == 0){
-                que.push(u);
-            }
-        }
-
-        int count = 0;
-
-        while(!que.empty()){
-            int u  = que.front();
-            que.pop();
-            count++;
-
-            for(auto &v: adj[u]){
-                indegree[v]--;
-                
-                if(indegree[v] == 0){
-                    que.push(v);
+            if(!visited[u]){
+                if(DFS(adj, u, visited, recVisited)){
+                    return false;//for cycle detected then return false
                 }
             }
         }
 
-        if(count != v){
-            return false;
-        }
+        return true;//cycle is not detected
 
-        return true;
     }
 };
