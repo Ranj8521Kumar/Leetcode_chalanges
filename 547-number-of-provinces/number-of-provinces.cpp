@@ -1,39 +1,39 @@
 class Solution {
 public:
-    void dfs(int node, vector<int>& vis, const vector<vector<int>>& adjLs){
-        vis[node] = 1;
+    void DFS(vector<vector<int>>& adj, int u, vector<bool>& visited){
+        visited[u] = true;
 
-        for(auto it: adjLs[node]){
-            if(!vis[it]){
-                vis[it] = 1;
-                dfs(it, vis,  adjLs);
+        for(auto &v: adj[u]){
+            if(!visited[v]){
+                DFS(adj, v, visited);
             }
         }
     }
 
     int findCircleNum(vector<vector<int>>& isConnected) {
-        int n = isConnected.size();
-        vector<vector<int>> adjLs(n + 1);
+        int v = isConnected.size();
 
-        //changes from adjancy matrix to  adjancy Lisy
-        for(int i = 0; i<n; i++){
-            for(int j = 0; j<n; j++){
-                if(isConnected[i][j] && i!=j){
-                    adjLs[i+1].push_back(j+1);
-                    adjLs[j+1].push_back(i+1);
+        vector<vector<int>> adj(v+1, vector<int> ());
+
+        for(int i =  0; i<v; i++){
+            for(int j =  0; j<v; j++){
+                int u = isConnected[i][j];
+                if(u == 1){
+                    adj[i+1].push_back(j+1);
                 }
             }
         }
 
-        vector<int> vis(n+1, 0);
-        int count = 0;
+        vector<bool> visited(v+1, 0);
 
-        for(int i = 1; i<=n; i++){
-            if(vis[i] == 0){
+        int count = 0;
+        for(int u = 1; u<=v; u++){
+            if(!visited[u]){
+                DFS(adj, u, visited);
                 count++;
-                dfs(i, vis, adjLs);
             }
         }
+
         return count;
     }
 };
