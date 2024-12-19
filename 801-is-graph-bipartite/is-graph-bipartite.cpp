@@ -4,7 +4,7 @@ public:
         color[u] = currColor;
 
         for(auto &v: adj[u]){
-            if(color[v] == color[u]){
+            if(color[v] == color[u]){// Same color on both ends of an edge
                 return false;
             }else{
                 if(color[v] == -1){
@@ -13,6 +13,9 @@ public:
                     }else{
                         color[v] = 1;
                     }
+
+                    //or, for assigning color
+                    //color[v] = 1 - color[u]; // for opposite color
 
                     if(!DFS(adj, v, color, color[v])){
                         return false;
@@ -34,7 +37,7 @@ public:
 
         for(int u = 0; u<v; u++){
             if(color[u] == -1){
-                int currColor = 1;
+                int currColor = 1; // Assign initial color
                 if(!DFS(graph, u, color, currColor)){
                     return false;
                 }
