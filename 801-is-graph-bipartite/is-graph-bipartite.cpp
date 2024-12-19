@@ -1,24 +1,26 @@
 class Solution {
 public:
-    bool DFS(vector<vector<int>>& adj, int u, vector<int>& color, int currColor){
+    bool BFS(vector<vector<int>>& adj, int u, vector<int>& color, int currColor){
+        queue<int> que;
+        que.push(u);
+
         color[u] = currColor;
 
-        for(auto &v: adj[u]){
-            if(color[v] == color[u]){// Same color on both ends of an edge
-                return false;
-            }else{
+        while(!que.empty()){
+            int u = que.front();
+            que.pop();
+            
+            for(auto &v: adj[u]){
+                if(color[v] == color[u]){
+                    return false;
+                }
+        
                 if(color[v] == -1){
+                    que.push(v);
                     if(color[u] == 1){
                         color[v] = 0;
                     }else{
-                        color[v] = 1;
-                    }
-
-                    //or, for assigning color
-                    //color[v] = 1 - color[u]; // for opposite color
-
-                    if(!DFS(adj, v, color, color[v])){
-                        return false;
+                        color[v] = 1; 
                     }
                 }
             }
@@ -28,17 +30,15 @@ public:
     }
 
     bool isBipartite(vector<vector<int>>& graph) {
-        int v = graph.size();
+        //using bfs
+        int v  = graph.size();
 
-        //red -> 1
-        //blue -> 0
-        //no-color -> -1
         vector<int> color(v, -1);
 
         for(int u = 0; u<v; u++){
             if(color[u] == -1){
-                int currColor = 1; // Assign initial color
-                if(!DFS(graph, u, color, currColor)){
+                int currColor = 1;
+                if(!BFS(graph, u, color, currColor)){
                     return false;
                 }
             }
