@@ -12,13 +12,16 @@ public:
 
         function<long long(int)> dfs = [&](int node) {
             visited[node] = true;
-            long long sum = values[node];
+            
+            long long sum = 0;
 
             for (int neighbor : adj[node]) {
                 if (!visited[neighbor]) {
                     sum += dfs(neighbor);
                 }
             }
+
+            sum += values[node];
 
             if (sum % k == 0) {
                 ++count;
