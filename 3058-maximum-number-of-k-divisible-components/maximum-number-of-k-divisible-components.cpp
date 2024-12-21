@@ -1,5 +1,26 @@
 class Solution {
 public:
+    long DFS(vector<vector<int>>& adj, int u, vector<bool>& visited, vector<int>& values, int k, int& count){
+        visited[u] =  true;
+        long sum = 0;
+
+        for(auto &v: adj[u]){
+            if(!visited[v]){
+                sum += DFS(adj, v, visited, values, k, count);
+                visited[v] = true;
+            }
+        }
+
+        sum += values[u];
+
+        if(sum % k == 0){
+            count++;
+            sum = 0;
+        }
+
+        return sum;
+    }
+
     int maxKDivisibleComponents(int n, vector<vector<int>>& edges, vector<int>& values, int k) {
         vector<vector<int>> adj(n);
         for (const auto& edge : edges) {
@@ -10,30 +31,9 @@ public:
         vector<bool> visited(n, false);
         int count = 0;
 
-        function<long long(int)> dfs = [&](int node) {
-            visited[node] = true;
-            
-            long long sum = 0;
-
-            for (int neighbor : adj[node]) {
-                if (!visited[neighbor]) {
-                    sum += dfs(neighbor);
-                }
-            }
-
-            sum += values[node];
-
-            if (sum % k == 0) {
-                ++count;
-                return 0LL;
-            }
-
-            return sum;
-        };
-
-        for (int i = 0; i < n; ++i) {
-            if (!visited[i]) {
-                dfs(i);
+        for(int u = 0; u<n; u++){
+            if(!visited[u]){
+                DFS(adj, u, visited, values, k, count);
             }
         }
 
