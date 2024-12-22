@@ -31,7 +31,7 @@ public:
 
             int i = u.second.first;
             int j = u.second.second;
-            int d = u.first;
+            int d = u.first; // current effort
 
             if (i == m - 1 && j == n - 1) {
                 return d;
@@ -41,13 +41,15 @@ public:
                 int next_i = i + dir[0];
                 int next_j = j + dir[1];
 
-                if(isSafe(next_i, next_j) && (max(d, abs(heights[next_i][next_j] - heights[i][j]))) < result[next_i][next_j]){
-                    pq.push({max(d, abs(heights[next_i][next_j] - heights[i][j])), {next_i, next_j}});
-                    result[next_i][next_j] = max(d, abs(heights[next_i][next_j] - heights[i][j]));
+                if(isSafe(next_i, next_j)){
+                    int updatedEffort =  max(d, abs(heights[next_i][next_j] - heights[i][j]));
+                    if((updatedEffort) < result[next_i][next_j]){
+                        pq.push({updatedEffort, {next_i, next_j}});
+                        result[next_i][next_j] = updatedEffort;
+                    }
                 }
             }
         }
-
         return 0;
     }
 };
