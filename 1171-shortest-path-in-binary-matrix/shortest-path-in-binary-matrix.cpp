@@ -1,6 +1,6 @@
 class Solution {
 public:
-    typedef pair<int, pair<int, int>> p;
+    typedef pair<int, int> p;
 
     int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
         int m = grid.size();
@@ -23,27 +23,26 @@ public:
 
         vector<vector<int>> result(m, vector<int> (n, INT_MAX));
 
-        priority_queue<p, vector<p>, greater<p>> pq;
-        pq.push({0, {0, 0}});
+        queue<p> pq;
+        pq.push({0, 0});
         result[0][0] = 0;
 
         int dist = 1;
 
         while(!pq.empty()){
-            auto u = pq.top();
+            auto u = pq.front();
             pq.pop();
 
-            int i = u.second.first;
-            int j = u.second.second;
-            int d = u.first;
+            int i = u.first;
+            int j = u.second;
 
             for(auto &dir: direction){
                 int new_i = i + dir[0];
                 int new_j = j + dir[1];
 
-                if(isSafe(new_i, new_j) && grid[new_i][new_j] == 0 && (d + dist) < result[new_i][new_j]){
-                    pq.push({(d + dist), {new_i, new_j}});
-                    result[new_i][new_j] = d + dist;
+                if(isSafe(new_i, new_j) && grid[new_i][new_j] == 0 && (result[i][j] + dist) < result[new_i][new_j]){
+                    pq.push({new_i, new_j});
+                    result[new_i][new_j] = result[i][j] + dist;
                 }
             }
         }
