@@ -11,35 +11,49 @@
  */
 class Solution {
 public:
-    static int minimumOperations(TreeNode* root) {
-        queue<TreeNode*> q;
-        q.push(root);
-        int swaps=0;
-        while(!q.empty()){
-            int qz=q.size();
-            vector<int> idx(qz, 0);
-            iota(idx.begin(), idx.end(), 0);
-            vector<int> arr(qz, 0);
-            for(int i=0; i<qz; i++){
-                auto node=q.front();
-                q.pop();
-                arr[i]=node->val;
-                if(node->left) q.push(node->left);
-                if(node->right) q.push(node->right);
-            }
-            // each value is unique, no need for stable_sort
-            sort(idx.begin(), idx.end(), [&](int i, int j){
-                return arr[i]<arr[j];
-            });
-            for(int i=0; i<qz; ){
-                int j=idx[i];
-                if (j!=i){
-                    swaps++;
-                    swap(idx[i], idx[j]);
+    int minimumOperations(TreeNode* root) {
+        queue<TreeNode*> que;
+        que.push(root);
+
+        int count = 0;
+
+        while(!que.empty()){
+            int len = que.size();
+
+            vector<int> currentLevel;
+            for(int i = 0; i<len; i++){
+                TreeNode* node = que.front();
+                que.pop();
+
+                currentLevel.push_back(node->val);
+
+                if(node->left) {
+                    que.push(node->left);
                 }
-                else i++; 
+
+                if(node->right){
+                    que.push(node->right);
+                }
+            }
+
+            vector<int> sorted(currentLevel.begin(), currentLevel.end());
+            sort(sorted.begin(), sorted.end());
+            unordered_map<int, int> mpp;
+            for(int i = 0; i<len; i++){
+                mpp.insert({sorted[i], i});
+            }
+
+            for(int i = 0; i<len; ){
+                int rightIndex = mpp[currentLevel[i]];
+                if(rightIndex != i){
+                    swap(currentLevel[rightIndex], currentLevel[i]);
+                    count++;
+                }else{
+                    i++;
+                }
             }
         }
-        return swaps;
+
+        return count;
     }
 };
