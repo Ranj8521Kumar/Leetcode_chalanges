@@ -1,5 +1,6 @@
 class Solution {
 public:
+//using kruskal's Algorithm
     int find(int u, vector<int>& parent){
         if(u == parent[u]){
             return u;
