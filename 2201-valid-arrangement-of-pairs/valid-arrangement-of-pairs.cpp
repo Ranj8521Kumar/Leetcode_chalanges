@@ -1,52 +1,51 @@
 class Solution {
 public:
     vector<vector<int>> validArrangement(vector<vector<int>>& pairs) {
-        int n = pairs.size();
-
-        vector<vector<int>> result;
-        
-        // logic to build the arrangement
-        unordered_map<int, vector<int>> adjList;
+        unordered_map<int, vector<int>> adj;
         unordered_map<int, int> inDegree, outDegree;
+        for(auto &pair: pairs){
+            int u = pair[0];
+            int v = pair[1];
 
-        // Build adjacency list and track in-degrees and out-degrees
-        for (auto &vec : pairs) {
-            adjList[vec[0]].push_back(vec[1]);
-            outDegree[vec[0]]++;
-            inDegree[vec[1]]++;
+            adj[u].push_back(v);
+            inDegree[v]++;
+            outDegree[u]++;
         }
 
-        // Find the starting node for the arrangement
-        int start = pairs[0][0];
-        for (auto &p : outDegree) {
-            if (p.second > inDegree[p.first]) {
-                start = p.first;
+        int startingNode = pairs[0][0];
+
+        for(auto &v: adj){
+            int node = v.first;
+
+            if((outDegree[node] - inDegree[node]) == 1){
+                startingNode = node;
                 break;
             }
         }
 
-        // Perform Eulerian path traversal
-        vector<int> path;
-        stack<int> stk;
-        stk.push(start);
+        vector<int> eulerPath; // for store path
+        stack<int> st; // for perfomminf dfs
 
-        while (!stk.empty()) {
-            int node = stk.top();
-            if (!adjList[node].empty()) {
-                int next = adjList[node].back();
-                adjList[node].pop_back();
-                stk.push(next);
-            } else {
-                path.push_back(node);
-                stk.pop();
+        st.push(startingNode);
+        while(!st.empty()){
+            int curr = st.top();
+
+            if(!adj[curr].empty()){
+                int neighbour = adj[curr].back();
+                adj[curr].pop_back();
+                st.push(neighbour);
+            }else{
+                eulerPath.push_back(curr);
+                st.pop();
             }
         }
 
-        reverse(path.begin(), path.end());
+        reverse(eulerPath.begin(),  eulerPath.end());
 
-        // Convert path into pairs
-        for (int i = 0; i < path.size() - 1; i++) {
-            result.push_back({path[i], path[i + 1]});
+        // for finding correct pairs from euler path
+        vector<vector<int>> result;
+        for(int i = 0; i<eulerPath.size() - 1; i++){
+            result.push_back({eulerPath[i], eulerPath[i+1]});
         }
 
         return result;
