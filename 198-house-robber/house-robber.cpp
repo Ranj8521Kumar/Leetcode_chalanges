@@ -1,24 +1,32 @@
 class Solution {
 public:
-// Buttom - Up Apprach
-    int solve(vector<int>& nums, vector<int>& arr, int n){
-        arr[0] = 0;
-        arr[1] = nums[0];
-
-        for(int i = 2; i<=n; i++){
-            int steal = nums[i-1] + arr[i-2];
-            int skip = arr[i-1];
-
-            arr[i] = max(steal, skip);
+//using buttom - up approach with constant space
+    int solve(int n, vector<int>& nums){
+        if(n == 1){
+            return nums[0];
         }
 
-        return arr[n];
+        int prevPrev = 0;
+        int prev = nums[0];
+
+        int maxProfit;
+
+        for(int i = 2; i<=n; i++){
+            int steal = nums[i-1] + prevPrev;
+            int skip = prev;
+
+            maxProfit = max(steal, skip);
+
+            prevPrev = prev;
+            prev = maxProfit;;
+        }
+
+        return maxProfit;
     }
 
     int rob(vector<int>& nums) {
         int n = nums.size();
-        vector<int> arr(n+1);
 
-        return solve(nums, arr, n);
+        return solve(n, nums);
     }
 };
