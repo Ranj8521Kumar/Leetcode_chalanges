@@ -2,8 +2,6 @@ class Solution {
 public:
 // Buttom - Up Apprach
     int solve(vector<int>& nums, vector<int>& arr, int n){
-        if(n==0) return 0;
-
         arr[0] = 0;
         arr[1] = nums[0];
 
