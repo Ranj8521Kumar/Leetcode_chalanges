@@ -11,41 +11,32 @@
  */
 class Solution {
 public:
+    //DFS Approach
+
+    void DFS(TreeNode* root, int depth, vector<int>& result){
+        if(root == nullptr){
+            return;
+        }
+
+        if(result.size() == depth){//first time visit to that depth
+            result.push_back(root->val); 
+        }else{//already visited to that depth
+            result[depth] = max(result[depth], root->val);
+        }
+
+        if(root->left){
+            DFS(root->left, depth+1, result);
+        }
+
+        if(root->right){
+            DFS(root->right, depth+1, result);
+        }
+    }
+
     vector<int> largestValues(TreeNode* root) {
-        //level order traversal or BFS
         vector<int> result;
-        queue<TreeNode*> que;
-        
-        if(root != nullptr){
-            que.push(root);
-        }
 
-        while(!que.empty()){
-            int len = que.size();
-
-            vector<int> level;
-            while(len--){
-                auto u = que.front();
-                que.pop();
-                level.push_back(u->val);
-
-                //push node of next level in the queue
-                if(u->left){
-                    que.push(u->left);
-                }
-
-                if(u->right){
-                    que.push(u->right);
-                }
-            }
-
-            int maxElem = INT_MIN;
-            for(auto &it: level){
-                maxElem = max(maxElem, it);
-            }
-
-            result.push_back(maxElem);
-        }
+        DFS(root, 0, result);// 0  -> current depth
 
         return result;
     }
