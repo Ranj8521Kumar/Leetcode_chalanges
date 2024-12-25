@@ -1,33 +1,18 @@
 class Solution {
 public:
-    pair<int, int> BFS(unordered_map<int, vector<int>>& adj, int u){
-        unordered_map<int, bool> visited;
+    pair<int, int> DFS(unordered_map<int, vector<int>>& adj, int u, unordered_map<int, bool>& visited){
         int maxDist = 0;
         int farthestNode = u;
-        queue<int> que;
-
-        que.push(u);
+        
         visited[u] = true;
+        for(auto &v: adj[u]){
+            if(!visited[v]){
+                auto temp = DFS(adj, v, visited);
 
-        while(!que.empty()){
-            int len = que.size(); //size of current level
-
-            while(len--){
-                int u = que.front();
-                que.pop();
-                farthestNode = u;
-
-                //adding node of next level
-                for(auto &v: adj[u]){
-                    if(!visited[v]){
-                        visited[v] = true;
-                        que.push(v);
-                    }
+                if(temp.first + 1 > maxDist){
+                    maxDist = temp.first + 1;
+                    farthestNode = temp.second;
                 }
-            }
-
-            if(!que.empty()){// if que empty then there is no any level
-                maxDist++;
             }
         }
 
@@ -46,8 +31,12 @@ public:
             adj[v].push_back(u);
         }
 
-        auto [maxDist, farthestNode] = BFS(adj, 0);//find one end of the diameter
-        auto [diameter, _] = BFS(adj, farthestNode);//find length of the diameter or second length of  the diameter
+        unordered_map<int, bool> visited;
+
+        auto [maxDist, farthestNode] = DFS(adj, 0, visited);//find one end of the diameter
+
+        visited = unordered_map<int, bool> (false);
+        auto [diameter, secondEnd] = DFS(adj, farthestNode, visited);//find length of the diameter or second length of  the diameter
 
         return diameter;
     }
