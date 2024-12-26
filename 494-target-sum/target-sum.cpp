@@ -1,5 +1,6 @@
 class Solution {
 public:
+    //using recursion
     int solve(vector<int>& nums, int target, int i, int sum){
         if(i>=nums.size()){
             if(sum == target){
