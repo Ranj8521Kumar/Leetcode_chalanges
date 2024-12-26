@@ -1,10 +1,10 @@
 class Solution {
 public:
-    //using recursion and memoization
-    unordered_map<string, int> mpp; //for memoization
+    //using recursion and memoization without use unordered_map
+    int S; //total sum
 
-    int solve(vector<int>& nums, int target, int i, int sum, bool isPlus){
-        if(i>=nums.size()){
+    int solve(vector<int>& nums, int target, int i, int sum, vector<vector<int>>& t){
+        if(i==nums.size()){
             if(sum == target){
                 return 1;
             }else{
@@ -12,21 +12,21 @@ public:
             }
         }
 
-        string key = to_string(i)+','+to_string(sum);
-
-        if(mpp.find(key) != mpp.end()){
-            return mpp[key];
-        }
+        if(t[i][sum + S] != INT_MIN) return t[i][sum + S];
 
         //add
-        int leftSum = solve(nums, target, i+1, sum + nums[i], isPlus);
+        int leftSum = solve(nums, target, i+1, sum + nums[i], t);
         //substract
-        int rightSum = solve(nums, target, i+1, sum - nums[i], !isPlus);
+        int rightSum = solve(nums, target, i+1, sum - nums[i], t);
 
-        return mpp[key] = leftSum + rightSum;
+        return t[i][sum + S] = leftSum + rightSum;
     }
 
     int findTargetSumWays(vector<int>& nums, int target) {
-        return solve(nums, target, 0, 0, 1);
+        int n =  nums.size();
+        S = accumulate(nums.begin(), nums.end(), 0);
+        vector<vector<int>> t(n+1, vector<int>(2*S+1, INT_MIN));
+        
+        return solve(nums, target, 0, 0, t);
     }
 };
