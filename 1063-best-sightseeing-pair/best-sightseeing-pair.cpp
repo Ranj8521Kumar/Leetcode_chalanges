@@ -4,7 +4,7 @@ public:
     int maxScoreSightseeingPair(vector<int>& values) {
         int n = values.size();
 
-        vector<int> maxScoreTill(n);
+        vector<int> maxScoreTill(n);//store the maximum value till of valuse[i] + i till ith index
         maxScoreTill[0] = values[0];
         int temp = maxScoreTill[0];
 
