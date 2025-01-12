@@ -5,41 +5,38 @@ public:
 
         if(n%2 != 0) return false;
 
-        int open = 0; int unlocked = 0;
+        stack<int> openIndices;
+        stack<int> unlockedIndices;
+
         for(int i = 0; i<n; i++){
             if(locked[i] == '0'){
-                unlocked++;
+                unlockedIndices.push(i);
             }else if(s[i] == '('){
-                open++;
+                openIndices.push(i);
             }else{
-                if(open > 0){
-                    open--;
-                }else if(unlocked > 0){
-                    unlocked--;
+                if(!openIndices.empty()){
+                    openIndices.pop();
+                }else if(!unlockedIndices.empty()){
+                    unlockedIndices.pop();
                 }else{
                     return false;
                 }
             }
         }
 
-        int close = 0;
-        unlocked = 0;
-        for(int i = n-1; i>=0; i--){
-            if(locked[i] == '0'){
-                unlocked++;
-            }else  if(s[i] == ')'){
-                close++;
+        while(!openIndices.empty() && !unlockedIndices.empty() && openIndices.top() < unlockedIndices.top()){
+            openIndices.pop();
+            unlockedIndices.pop();
+        }
+
+        if(openIndices.empty() && !unlockedIndices.empty()){
+            if(unlockedIndices.size() % 2 != 0){
+                return false;
             }else{
-                if(close > 0){
-                    close--;
-                }else if(unlocked > 0){
-                    unlocked--;
-                }else{
-                    return false;
-                }
+                return true;
             }
         }
 
-        return true;
+        return openIndices.empty();
     }
 };
