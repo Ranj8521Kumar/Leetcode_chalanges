@@ -14,7 +14,7 @@ public:
             st2.insert(B[i]);
 
             for(int j = 0; j<=i; j++){
-                if(st1.count(A[j]) && st2.count(A[j])){
+                if(st1.find(A[j]) != st1.end() && st2.find(A[j]) != st2.end()){
                     count++;
                 }
             }
