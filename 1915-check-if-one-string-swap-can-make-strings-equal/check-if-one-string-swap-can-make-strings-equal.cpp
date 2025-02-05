@@ -8,33 +8,25 @@ public:
             return false;
         }
 
-        unordered_map<char, int> mpp;
+        vector<int> diffIndices;
 
-        for(auto &ch: s1){
-            mpp[ch]++;
-        }
-
-        for(auto &ch: s2){
-            mpp[ch]--;
-        }
-
-        for(auto &it: mpp){
-            if(it.second != 0){
-                return false;
-            }
-        }
-
-        int numberSwap = 0;
         for(int i = 0; i<n; i++){
             if(s1[i] != s2[i]){
-                numberSwap++;
-            }
-
-            if(numberSwap > 2){
-                return false;
+                diffIndices.push_back(i);
             }
         }
 
-        return true;
+        if(diffIndices.size() > 2){
+            return false;
+        }else if(diffIndices.size() == 0){
+            return true;
+        }else if(diffIndices.size() == 1){
+            return false;
+        }
+
+        int i = diffIndices[0];
+        int j = diffIndices[1];
+
+        return (s1[i] == s2[j] && s1[j] == s2[i]);
     }
 };
