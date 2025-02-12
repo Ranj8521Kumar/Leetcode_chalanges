@@ -2,7 +2,8 @@ class Solution {
 public:
     int maximumSum(vector<int>& nums) {
         int n = nums.size();
-        vector<vector<int>> vec(82);
+        int result = -1;
+        unordered_map<int, pair<int, int>> mpp;
 
         for(int i = 0; i<n; i++){
             int num = nums[i];
@@ -13,20 +14,20 @@ public:
                 num /= 10;
             }
 
-            vec[sum].push_back(nums[i]);
-        }
+            auto &[max1, max2] = mpp[sum];
 
-        int result = INT_MIN;
+            if(nums[i] > max1){
+                max2 = max1;
+                max1 = nums[i];
+            }else if(nums[i] > max2){
+                max2 = nums[i];
+            }
 
-        for(auto &group: vec){
-            int len = group.size();
-            if(len > 1){
-                sort(group.begin(), group.end());
-
-                result = max(result, group[len - 1] + group[len - 2]);
+            if(max1 && max2){
+                result = max(result, max1 + max2);
             }
         }
 
-        return (result == INT_MIN)? -1 : result;
+        return result;
     }
 };
