@@ -14,7 +14,10 @@ public:
                 num /= 10;
             }
 
-            auto &[max1, max2] = mpp[sum];
+            // auto &[max1, max2] = mpp[sum];
+            auto &it = mpp[sum];
+            int max1 = it.first;
+            int max2 = it.second;
 
             if(nums[i] > max1){
                 max2 = max1;
@@ -22,6 +25,8 @@ public:
             }else if(nums[i] > max2){
                 max2 = nums[i];
             }
+
+            it = {max1, max2}; //for updating the map entry
 
             if(max1 && max2){
                 result = max(result, max1 + max2);
