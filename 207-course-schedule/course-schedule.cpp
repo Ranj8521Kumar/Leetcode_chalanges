@@ -1,24 +1,5 @@
 class Solution {
 public:
-    bool DFSForCycle(vector<vector<int>> &adj, int u, vector<bool> &visited, vector<bool> &recVisited){
-        visited[u] = true;
-        recVisited[u] = true;
-
-        for(auto &v: adj[u]){
-            if(visited[v] && recVisited[v]){
-                return true;
-            }
-
-            if(!visited[v]){
-                if(DFSForCycle(adj, v, visited, recVisited)){
-                    return true;
-                }
-            }
-        }
-
-        recVisited[u] = false;
-        return false;
-    }
 
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
         int v = numCourses;
@@ -31,17 +12,40 @@ public:
             adj[v].push_back(u);
         }
         
-        vector<bool> visited(v, false);
-        vector<bool> recVisited(v, false);
-
+        vector<int> indegree(v, 0);
         for(int u = 0; u<v; u++){
-            if(!visited[u]){
-                if(DFSForCycle(adj, u, visited, recVisited)){
-                    return false;
+            for(auto &v: adj[u]){
+                indegree[v]++;
+            }
+        }
+
+        queue<int> que;
+        int count = 0;
+        for(int u = 0; u<v; u++){
+            if(indegree[u] == 0){
+                que.push(u);
+                count++;
+            }
+        }
+
+        while(!que.empty()){
+            int u = que.front();
+            que.pop();
+
+            for(auto &v: adj[u]){
+                indegree[v]--;
+
+                if(indegree[v] == 0){
+                    que.push(v);
+                    count++;
                 }
             }
         }
 
-        return true;
+        if(count == v){
+            return true;//topological sort possible
+        }
+        
+        return false;
     }
 };
