@@ -6,9 +6,7 @@ public:
             str += to_string(i);
         }
 
-        if(k == 1){
-            return str;
-        }
+       
 
         int cnt = 1;
         while(next_permutation(str.begin(), str.end())){
