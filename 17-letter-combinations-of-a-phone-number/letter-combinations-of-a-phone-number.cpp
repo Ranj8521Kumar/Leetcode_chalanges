@@ -14,50 +14,49 @@ public:
         mpp['9'] = "wxyz";
 
 
-        string comb = "";
+        // string comb = "";
 
-        for(int i = 0; i<n; i++){
-            comb += mpp[digits[i]];
-        }
+        // for(int i = 0; i<n; i++){
+        //     comb += mpp[digits[i]];
+        // }
 
         if(n == 1){
-            int m = mpp[digits[0]].size();
-            for(int i = 0; i<m; i++){
-                result.push_back(string(1, comb[i]));
+            string a = mpp[digits[0]];
+            for(auto &ch1: a){
+                result.push_back(string(1, ch1));
             }
         }else if(n == 2){
-            int m = mpp[digits[0]].size();
-            int p = mpp[digits[1]].size();
+            string a = mpp[digits[0]];
+            string b = mpp[digits[1]];
 
-            for(int i = 0; i<m; i++){
-                for(int j = m; j<p+m; j++){
-                    result.push_back(string(1, comb[i]) + string(1, comb[j]));
+            for(auto &ch1: a){
+                for(auto &ch2: b){
+                    result.push_back(string(1, ch1) + ch2);
                 }
             }
         }else if(n == 3){
-            int m = mpp[digits[0]].size();
-            int p = mpp[digits[1]].size();
-            int q = mpp[digits[2]].size();
+            string a = mpp[digits[0]];
+            string b = mpp[digits[1]];
+            string c = mpp[digits[2]];
 
-            for(int i = 0; i<m; i++){
-                for(int j = m; j<p+m; j++){
-                    for(int k = p + m; k<q+p+m; k++){
-                        result.push_back(string(1, comb[i]) + string(1, comb[j]) + string(1, comb[k]));
+            for(auto &ch1: a){
+                for(auto &ch2: b){
+                    for(auto &ch3: c){
+                        result.push_back(string(1, ch1) + ch2  + ch3);
                     }
                 }
             }
         }else{
-            int m = mpp[digits[0]].size();
-            int p = mpp[digits[1]].size();
-            int q = mpp[digits[2]].size();
-            int r = mpp[digits[3]].size();
-            
+            string a = mpp[digits[0]];
+            string b = mpp[digits[1]];
+            string c = mpp[digits[2]];
+            string d = mpp[digits[3]];
 
-            for(int i = 0; i<m; i++){
-                for(int j = m; j<p+m; j++){
-                    for(int k = p + m; k<q+m+p; k++){
-                        for(int l = p + m + q; l<r+p+m+q; l++){
-                            result.push_back(string(1, comb[i]) + string(1, comb[j]) + string(1, comb[k]) + string(1, comb[l]));
+            for(auto &ch1: a){
+                for(auto &ch2: b){
+                    for(auto &ch3: c){
+                        for(auto &ch4: d){
+                            result.push_back(string(1, ch1) + ch2  + ch3 + ch4);
                         }
                     }
                 }
