@@ -1,5 +1,6 @@
 class Solution {
 public:
+//simple brurte force according to the frequencies
     int minimumDeletions(string word, int k) {
         int n = word.size();
 
