@@ -13,7 +13,8 @@ public:
         if(cnt == n) return result;
 
         cnt -= k;
-        result.pop_back();
+        result.pop_back(); //remove last incomplete pushed string
+
         string lastString = "";
         while(cnt < n){
             lastString += s[cnt];
