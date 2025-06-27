@@ -21,18 +21,17 @@ public:
         return false;
     }
 
-    void backtrack(string s, vector<bool> &canUse, vector<int> &reqFreq, string &result, string &curr, int maxLen, int k){
-        if(curr.size() > maxLen){
-            return;
+    bool backtrack(string s, vector<bool> &canUse, vector<int> &reqFreq, string &result, string &curr, int maxLen, int k){
+        if(curr.size() == maxLen){
+            if(isSubsequence(s, curr, k)){
+                result = curr;
+                return true;
+            }
+
+            return false;
         }
 
-        if((curr.length() > result.length() ||
-            (curr.length() == result.length() && curr > result)) &&
-            isSubsequence(s, curr, k)){
-            result = curr;
-        }
-
-        for(int i = 0; i<26; i++){
+        for(int i = 25; i>=0; i--){
             if(canUse[i] == false || reqFreq[i] == 0){
                 continue;
             }
@@ -43,12 +42,16 @@ public:
             reqFreq[i]--;
 
             //Explore
-            backtrack(s, canUse, reqFreq, result, curr, maxLen, k);
+            if(backtrack(s, canUse, reqFreq, result, curr, maxLen, k)){
+                return true;
+            }
 
             //Undo
             curr.pop_back();
             reqFreq[i]++;
         }
+
+        return false;
     }
 
     string longestSubsequenceRepeatedK(string s, int k) {
@@ -72,7 +75,12 @@ public:
         string curr;
         string result = "";
 
-        backtrack(s, canUse, reqFreq, result, curr, maxLen, k);
+        for(int len = maxLen; len>=0; len--){
+            vector<int> tempReqFreq = reqFreq;
+            if(backtrack(s, canUse, tempReqFreq, result, curr, len, k) == true){
+                return result;
+            }
+        }
 
         return result;
 
