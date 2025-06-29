@@ -5,6 +5,7 @@ public:
         int count = 0;
         int mod = 1e9 + 7;
 
+//because we have to find minimum and maximum for each subsequence, so don't care about order of elements in subsequences
         sort(nums.begin(), nums.end());
 
         vector<int> power(n, 0);
