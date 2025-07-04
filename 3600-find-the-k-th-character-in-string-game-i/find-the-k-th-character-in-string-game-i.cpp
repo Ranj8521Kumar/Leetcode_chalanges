@@ -1,21 +1,6 @@
 class Solution {
 public:
     char kthCharacter(int k) {
-        string result = "a";
-
-        while(result.size() <= k){
-            int n = result.size();
-            for(int i = 0; i<n; i++){
-                char ch = result[i];
-                
-                    result += (ch + 1);
-                
-            }
-
-        }
-
-        return result[k-1];
-
+        return ('a' + popcount((uint)k-1));
     }
-
 };
