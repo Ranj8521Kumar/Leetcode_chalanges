@@ -7,11 +7,9 @@ public:
             int n = result.size();
             for(int i = 0; i<n; i++){
                 char ch = result[i];
-                if(ch == 'z'){
-                    result += 'a';
-                }else{
+                
                     result += (ch + 1);
-                }
+                
             }
 
         }
