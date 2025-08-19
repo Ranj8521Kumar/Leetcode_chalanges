@@ -9,14 +9,16 @@ public:
             int u = que.front();
             que.pop();
 
-            for(auto &v: graph[currNode]){
+            for(auto &v: graph[u]){
                 if(color[v] == -1){
-                    currColor = 1 - color[currNode];
-                    if(BFS(graph, color, v, currColor) == false){
-                        return false;
-                    }
+                    // if(BFS(graph, color, v, currColor) == false){
+                    //     return false;
+                    // }
+
+                    color[v] = 1 - color[u];
+                    que.push(v);
                 }else{
-                    if(color[v] == color[currNode]){
+                    if(color[v] == color[u]){
                         return false;
                     }
                 }
