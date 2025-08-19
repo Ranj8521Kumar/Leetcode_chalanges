@@ -37,12 +37,12 @@ public:
         }
 
         long long result = 0;
-        long long remainingNodes = n;
+        int remainingNodes = n;
 
         for(auto &it: mpp){
             remainingNodes -= it.second;
 
-            result += it.second*remainingNodes;
+            result += (it.second*(long long)remainingNodes);
         }
 
         return result;
