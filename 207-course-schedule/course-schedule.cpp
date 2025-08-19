@@ -1,28 +1,24 @@
 class Solution {
 public:
-
+// If cycle detected then not possible to finish all the Courses
+// Here detecting cycle using khan's Algorithm
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
         int v = numCourses;
+        unordered_map<int, vector<int>> adj;
+        vector<int> indgree(v, 0);
 
-        vector<vector<int>> adj(v, vector<int> ());
         for(auto &vec: prerequisites){
-            int u = vec[0];
-            int v = vec[1];
+            int u =  vec[1];
+            int v =  vec[0];
 
-            adj[v].push_back(u);
-        }
-        
-        vector<int> indegree(v, 0);
-        for(int u = 0; u<v; u++){
-            for(auto &v: adj[u]){
-                indegree[v]++;
-            }
+            adj[u].push_back(v);
+            indgree[v]++;
         }
 
-        queue<int> que;
         int count = 0;
+        queue<int> que;
         for(int u = 0; u<v; u++){
-            if(indegree[u] == 0){
+            if(indgree[u] == 0){
                 que.push(u);
                 count++;
             }
@@ -33,19 +29,19 @@ public:
             que.pop();
 
             for(auto &v: adj[u]){
-                indegree[v]--;
+                indgree[v]--;
 
-                if(indegree[v] == 0){
+                if(indgree[v] == 0){
                     que.push(v);
                     count++;
                 }
             }
         }
 
-        if(count == v){
-            return true;//topological sort possible
+        if(count != v){
+            return false;
         }
-        
-        return false;
+
+        return true;
     }
 };
