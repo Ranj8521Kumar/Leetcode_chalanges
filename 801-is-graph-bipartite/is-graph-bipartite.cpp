@@ -1,26 +1,23 @@
 class Solution {
 public:
-    bool BFS(vector<vector<int>>& adj, int u, vector<int>& color, int currColor){
+    bool BFS(vector<vector<int>>& graph, vector<int>& color, int currNode, int currColor){
         queue<int> que;
-        que.push(u);
-
-        color[u] = currColor;
+        que.push(currNode);
+        color[currNode] = currColor;
 
         while(!que.empty()){
             int u = que.front();
             que.pop();
-            
-            for(auto &v: adj[u]){
-                if(color[v] == color[u]){
-                    return false;
-                }
-        
+
+            for(auto &v: graph[currNode]){
                 if(color[v] == -1){
-                    que.push(v);
-                    if(color[u] == 1){
-                        color[v] = 0;
-                    }else{
-                        color[v] = 1; 
+                    currColor = 1 - color[currNode];
+                    if(BFS(graph, color, v, currColor) == false){
+                        return false;
+                    }
+                }else{
+                    if(color[v] == color[currNode]){
+                        return false;
                     }
                 }
             }
@@ -30,17 +27,12 @@ public:
     }
 
     bool isBipartite(vector<vector<int>>& graph) {
-        //using bfs
-        int v  = graph.size();
+        int V = graph.size();
+        vector<int> color(V, -1);
 
-        vector<int> color(v, -1);
-
-        for(int u = 0; u<v; u++){
-            if(color[u] == -1){
-                int currColor = 1;
-                if(!BFS(graph, u, color, currColor)){
-                    return false;
-                }
+        for(int u = 0; u<V; u++){
+            if(color[u] == -1 && BFS(graph, color, u, 0) == false){
+                return false;
             }
         }
 
