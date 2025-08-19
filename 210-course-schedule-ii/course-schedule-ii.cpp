@@ -1,58 +1,46 @@
 class Solution {
 public:
-    bool DFS(vector<vector<int>>& adj, int u, vector<bool>& visited, vector<bool>& recVisited, stack<int>& st){
-        visited[u] = true;
-        recVisited[u] = true;
-
-        for(auto &v: adj[u]){
-            if(visited[v] && recVisited[v]){
-                return true;
-            }else{
-                if(!visited[v]){
-                    if(DFS(adj, v, visited, recVisited, st)){
-                        return true;
-                    }
-                }
-            }
-        }
-        st.push(u);
-        recVisited[u] = false;
-        return false;
-    }
-
     vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
-        //using dfs
         int v = numCourses;
-        int n = prerequisites.size();
+        unordered_map<int, vector<int>> adj;
+        vector<int> indegree(v, 0);
 
-        vector<int> result;
-
-        vector<bool> visited(v, false);
-        vector<bool> recVisited(v, false);
-
-        vector<vector<int>> adj(v, vector<int> ());
-
-        for(auto &vec: prerequisites){
-            int u = vec[1];
+        for(auto &vec:  prerequisites){
+            int u =  vec[1];
             int v = vec[0];
 
             adj[u].push_back(v);
+            indegree[v]++;
         }
 
-        stack<int> st;
+        queue<int> que;
+        int count = 0;
+        vector<int> result;
         for(int u = 0; u<v; u++){
-            if(!visited[u]){
-                if(DFS(adj, u, visited, recVisited, st)){
-                    return {};
-                };
+            if(indegree[u] == 0){
+                que.push(u);
+                count++;
+                result.push_back(u);
             }
         }
 
-        while(!st.empty()){
-            int u = st.top();
-            st.pop();
+        while(!que.empty()){
+            int u = que.front();
+            que.pop();
 
-            result.push_back(u);
+            for(auto &v: adj[u]){
+                indegree[v]--;
+
+                if(indegree[v] == 0){
+                    que.push(v);
+                    count++;
+                    result.push_back(v);
+                }
+            }
+        }
+
+        if(count != v){
+            return {};
         }
 
         return result;
