@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int find(int u, vector<int>& parent){
+    int find(int u, vector<int> &parent){
         if(u == parent[u]){
             return u;
         }
@@ -8,42 +8,35 @@ public:
         return parent[u] = find(parent[u], parent);
     }
 
-    void unionSet(int parent_u, int parent_v, vector<int>& parent, vector<int>& rank){
-        if(rank[parent_u] == rank[parent_v]){
-            parent[parent_u] = parent_v;
-            rank[parent_v]++;
-        }else if(rank[parent_u] > rank[parent_v]){
-            parent[parent_v] = parent_u;
-        }else{
-            parent[parent_u] = parent_v;
+    void Union(int u, int v, vector<int>& parent){
+        if(u != v){
+            parent[u] = v;
         }
     }
 
     bool equationsPossible(vector<string>& equations) {
-        //using dsu(disjoint set union-find)
+        int V = equations.size();
 
-        int n = equations.size();
-        vector<int> parent(26);
-        vector<int> rank(26,  0);
-
+        vector<int> parent(26, 0);
         for(int i = 0; i<26; i++){
             parent[i] = i;
         }
 
-        for(auto &vec: equations){
-            int parent_u = find(vec[0] - 'a', parent);
-            int parent_v = find(vec[3] - 'a', parent);
-            if(vec[1] == '='){
-                unionSet(parent_u, parent_v, parent, rank);
+        for(auto &str: equations){
+            if(str[1] == '='){
+                int firstParent = find(str[0] - 'a', parent);
+                int secondParent = find(str[3] -'a', parent);
+
+                Union(firstParent, secondParent, parent);
             }
         }
 
+        for(auto &str: equations){
+            if(str[1] == '!'){
+                int firstParent = find(str[0] - 'a', parent);
+                int secondParent = find(str[3] -'a', parent);
 
-        for(auto &vec: equations){
-            int parent_u = find(vec[0] - 'a', parent);
-            int parent_v = find(vec[3] - 'a', parent);
-            if(vec[1] == '!'){
-                if(parent_u == parent_v){
+                if(firstParent == secondParent){
                     return false;
                 }
             }
