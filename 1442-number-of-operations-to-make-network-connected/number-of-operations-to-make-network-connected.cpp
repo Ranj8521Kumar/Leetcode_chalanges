@@ -1,47 +1,40 @@
 class Solution {
 public:
-    void BFS(vector<vector<int>>& adj, int u, vector<bool>& visited){
-        queue<int> que;
-        que.push(u);
-        visited[u] = true;
+    int find(int u, vector<int> &parent){
+        if(u == parent[u]){
+            return u;
+        }
 
-        while(!que.empty()){
-            int u = que.front();
-            que.pop();
-            
-            for(auto &v: adj[u]){
-                if(!visited[v]){
-                    que.push(v);
-                    visited[v] = true;
-                }
-            }
+        return parent[u] =  find(parent[u], parent);
+    }
+
+    void Union(int u, int v, vector<int> &parent){
+        if(u != v){
+            parent[u] = v;
         }
     }
 
     int makeConnected(int n, vector<vector<int>>& connections) {
-        int v = n;
-        int edges = connections.size();
+        vector<int> parent(n, 0);
 
-        if(edges < v-1) return -1;
+        if(connections.size() < n - 1) return -1;
 
-        vector<vector<int>> adj(v, vector<int> ());
+        for(int i = 0; i<n; i++){
+            parent[i] = i;
+        }
 
-        int components = 0;
+        int components = n;
 
         for(auto &edge: connections){
             int u = edge[0];
             int v = edge[1];
 
-            adj[u].push_back(v);
-            adj[v].push_back(u);
-        }
+            int parentU = find(u, parent);
+            int parentV = find(v, parent);
 
-        vector<bool> visited(v, false);
-
-        for(int u = 0; u<v; u++){
-            if(!visited[u]){
-                components++;
-                BFS(adj, u, visited);
+            if(parentU != parentV){
+                components--;
+                Union(parentU, parentV, parent);
             }
         }
 
