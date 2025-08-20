@@ -1,23 +1,30 @@
 class Solution {
 public:
-    int lengthOfLIS(vector<int>& nums) {
-        int n = nums.size();
+    vector<vector<int>> dp;
 
-        if(n == 0) return 0;
+    int solve(int i, int p, vector<int> &nums){
+        if(i >= nums.size()) return 0;
 
-        vector<int> dp(n+1, 1);
-        int longest = 1;
+        if(dp[i][p+1] != -1) return dp[i][p+1];
 
-        for(int i = 1; i<n; i++){
-            for(int j = 0; j<i; j++){
-                if(nums[i] > nums[j]){
-                    dp[i] = max(dp[i], dp[j] + 1);
-                }
-            }
-
-            longest = max(longest, dp[i]);
+        //take
+        int take = 0;
+        if(p == -1 || nums[p] < nums[i]){
+            take = 1 + solve(i+1, i, nums);
         }
 
-        return  longest;
+        //skip
+        int skip = solve(i+1, p, nums);
+
+        return dp[i][p+1] = max(take, skip);
+    }
+
+    int lengthOfLIS(vector<int>& nums) {
+        //it is the funda of take and skip
+        int n = nums.size();
+
+        dp.resize(n+1, vector<int> (n+1, -1));
+
+        return solve(0, -1, nums);
     }
 };
