@@ -1,13 +1,10 @@
 class Solution {
 public:
-//Recursion + Memoization Approach
-    int n;
-    int t[1001][10001];
-
+    vector<vector<int>> dp;
     int solve(int i, int p, vector<vector<int>>& pairs){
-        if(i >= n) return 0;
+        if(i >= pairs.size()) return 0;
 
-        if(p != -1 && t[i][p] != -1) return t[i][p];
+        if(dp[i][p+1] != -1) return dp[i][p+1];
 
         //take
         int take = 0;
@@ -18,16 +15,15 @@ public:
         //skip
         int skip = solve(i+1, p, pairs);
 
-        if(p != -1){
-            t[i][p] = max(take, skip);
-        }
-
-        return max(take, skip);
+        return dp[i][p+1] = max(take, skip);
     }
 
+
     int findLongestChain(vector<vector<int>>& pairs) {
-        n = pairs.size();
-        memset(t, -1, sizeof(t));
+        //This is also the funda of take and skip
+
+        int n = pairs.size();
+        dp.resize(n+1, vector<int> (n+1, -1));
 
         sort(pairs.begin(), pairs.end());
 
