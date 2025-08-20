@@ -1,56 +1,45 @@
 class Solution {
 public:
-    typedef pair<int, int> p;
-
     int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
         int m = grid.size();
         int n = grid[0].size();
 
-        if(m <= 0 || n <= 0 || grid[0][0] == 1){
-            return -1;
-        }
+        if(grid[0][0] != 0 || grid[m-1][n-1] != 0) return -1;
 
-        vector<vector<int>> direction = {{0, 1}, {1, 0}, {1, 1}, {-1, 1}, {-1, 0}, {-1, -1}, {0,  -1}, {1, -1}};
+        vector<vector<int>> directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}, {1, 1}, {1, -1},{-1, 1}, {-1, -1}};
 
-        // Lambda function for isSafe
-        auto isSafe = [&](int i,  int j){
-            if(i < 0 || j < 0 || i >= m || j>= n){
-                return false;
-            }
+        vector<vector<int>> result(m,  vector<int> (n, INT_MAX));
 
-            return true;
-        };
-
-        vector<vector<int>> result(m, vector<int> (n, INT_MAX));
-
-        queue<p> pq;
-        pq.push({0, 0});
-        result[0][0] = 0;
-
-        int dist = 1;
+        priority_queue<pair<int, pair<int, int>>, vector<pair<int, pair<int, int>>>, greater<pair<int, pair<int, int>>>> pq;
+        pq.push({1, {0, 0}});
+        grid[0][0] = 1;
 
         while(!pq.empty()){
-            auto u = pq.front();
+            auto it = pq.top();
             pq.pop();
 
-            int i = u.first;
-            int j = u.second;
+            int weight = it.first;
+            int x = it.second.first;
+            int y = it.second.second;
 
-            for(auto &dir: direction){
-                int new_i = i + dir[0];
-                int new_j = j + dir[1];
+            if(x == m-1 && y == n-1) return weight;
 
-                if(isSafe(new_i, new_j) && grid[new_i][new_j] == 0 && (result[i][j] + dist) < result[new_i][new_j]){
-                    pq.push({new_i, new_j});
-                    result[new_i][new_j] = result[i][j] + dist;
+            for(auto &dir: directions){
+                int newX = x + dir[0];
+                int newY = y + dir[1];
+
+                if(newX >= 0 && newX < m && newY >= 0 && newY < n){
+                    if(grid[newX][newY] == 0){
+                        if(weight + 1 < result[newX][newY]){
+                            result[newX][newY] = (weight + 1);
+                            grid[newX][newY] = 1;
+                            pq.push({weight+1, {newX, newY}});
+                        }
+                    }
                 }
             }
         }
 
-        if(result[m-1][n-1] == INT_MAX){
-            return -1;
-        }
-
-        return result[m-1][n-1] + 1;
+        return -1;
     }
 };
