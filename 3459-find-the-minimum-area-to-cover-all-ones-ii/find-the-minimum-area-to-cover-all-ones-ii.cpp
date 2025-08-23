@@ -9,12 +9,10 @@ public:
         int minColumn = n;
         int maxRow = -1;
         int minRow = m;
-        bool NotfoundOne = true;
 
         for(int i = rowStart; i<rowEnd; i++){
             for(int j = colStart; j<colEnd; j++){
                 if(grid[i][j] == 1){
-                    NotfoundOne = false;
                     maxColumn = max(maxColumn, j);
                     minColumn = min(minColumn, j);
 
@@ -24,7 +22,7 @@ public:
             }
         }
 
-        if(NotfoundOne) return 0;
+        if(maxRow == -1) return 0;
 
         return ((maxColumn - minColumn + 1)*(maxRow - minRow + 1));
     }
