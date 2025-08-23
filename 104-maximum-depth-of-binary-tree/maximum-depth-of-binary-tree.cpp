@@ -11,27 +11,18 @@
  */
 class Solution {
 public:
+    int DFS(TreeNode* root){
+        if(root ==  nullptr){
+            return 0;
+        }
+
+        int left = DFS(root->left);
+        int right = DFS(root->right);
+
+        return max(right, left) + 1;
+    }
+
     int maxDepth(TreeNode* root) {
-        queue<TreeNode*> que;
-        if(root){
-            que.push(root);
-        }
-        int level = 0;
-
-        while(!que.empty()){
-            int len =que.size();
-
-            while(len--){
-                auto node = que.front();
-                que.pop();
-
-                if(node->left) que.push(node->left);
-                if(node->right) que.push(node->right);
-            }
-
-            level++;
-        }
-
-        return level;
+        return DFS(root);
     }
 };
