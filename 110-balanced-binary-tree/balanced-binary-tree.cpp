@@ -11,50 +11,25 @@
  */
 class Solution {
 public:
-    int maxDepth(TreeNode* root) {
-        queue<TreeNode*> que;
-        if(root){
-            que.push(root);
-        }
-        int level = 0;
-
-        while(!que.empty()){
-            int len =que.size();
-
-            while(len--){
-                auto node = que.front();
-                que.pop();
-
-                if(node->left) que.push(node->left);
-                if(node->right) que.push(node->right);
-            }
-
-            level++;
+    int DFS(TreeNode* node){
+        if(node == nullptr){
+            return 0;
         }
 
-        return level;
+        int left = DFS(node->left);
+        if(left == -1) return -1;
+
+        int right = DFS(node->right);
+        if(right == -1) return -1;
+
+        if(abs(right - left) > 1) return -1;
+
+        return max(left, right) + 1;
     }
 
     bool isBalanced(TreeNode* root) {
-        queue<TreeNode*> que;
-        if(!root){
-            return true;
-        }
-
-        que.push(root);
-
-        while(!que.empty()){
-            auto node = que.front(); que.pop();
-
-            int heightOfLeftSubtree = maxDepth(node->left);
-            int heightOfRightSubtree = maxDepth(node->right);
-
-            if(abs(heightOfRightSubtree - heightOfLeftSubtree) > 1){
-                return false;
-            }
-
-            if(node->left) que.push(node->left);
-            if(node->right) que.push(node->right);
+        if(DFS(root) == -1){
+            return false;
         }
 
         return true;
