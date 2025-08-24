@@ -12,7 +12,7 @@ class Solution {
 public:
     ListNode* findMiddle(ListNode* head){
         ListNode* slow = head;
-        ListNode* fast = head->next;
+        ListNode* fast = head->next; //for getting first middle elment for the even length List
 
         while(fast != nullptr && fast->next != nullptr){
             slow = slow->next;
@@ -29,24 +29,24 @@ public:
         while(head1 && head2){
             if(head1->val <= head2->val){
                 temp->next = head1;
-                temp = head1;
                 head1 = head1->next;
             }else{
                 temp->next = head2;
-                temp = head2;
                 head2 = head2->next;
             }
+
+            temp = temp->next;
         }
 
         while(head1){
             temp->next = head1;
-            temp = head1;
+            temp = temp->next;
             head1 = head1->next;
         }
 
         while(head2){
             temp->next = head2;
-            temp = head2;
+            temp = temp->next;
             head2 = head2->next;
         }
 
