@@ -1,71 +1,97 @@
 class Solution {
 public:
-    vector<vector<char>> clockWiseRotation(vector<vector<char>>& board){
-        vector<vector<char>> rotatedBoard(9, vector<char>(9, '.'));
+    // vector<vector<char>> clockWiseRotation(vector<vector<char>>& board){
+    //     vector<vector<char>> rotatedBoard(9, vector<char>(9, '.'));
 
-        for(int i = 0; i<9; i++){
-            for(int j = 0; j<9; j++){
-                rotatedBoard[j][9-i-1] = board[i][j];
-            }
-        }
+    //     for(int i = 0; i<9; i++){
+    //         for(int j = 0; j<9; j++){
+    //             rotatedBoard[j][9-i-1] = board[i][j];
+    //         }
+    //     }
 
-        return rotatedBoard;
-    }
+    //     return rotatedBoard;
+    // }
 
-    bool checkRowValidity(vector<vector<char>>& board){
-        unordered_map<char, int> mpp;
+    // bool checkRowValidity(vector<vector<char>>& board){
+    //     unordered_map<char, int> mpp;
 
-        for(auto &vec: board){
-            for(auto &it: vec){
-                if(it != '.'){
-                    mpp[it]++;
-                }
+    //     for(auto &vec: board){
+    //         for(auto &it: vec){
+    //             if(it != '.'){
+    //                 mpp[it]++;
+    //             }
 
-                if(mpp[it] > 1){
-                    return false;
-                }
-            }
+    //             if(mpp[it] > 1){
+    //                 return false;
+    //             }
+    //         }
 
-             mpp.clear();
-        }
+    //          mpp.clear();
+    //     }
 
-        return true;
-    }
+    //     return true;
+    // }
 
-    bool validateSubBoxes(vector<vector<char>>& board, int rowStart, int rowEnd, int colStart, int colEnd){
-        unordered_map<char, int> mpp;
+    // bool validateSubBoxes(vector<vector<char>>& board, int rowStart, int rowEnd, int colStart, int colEnd){
+    //     unordered_map<char, int> mpp;
 
-        for(int i = rowStart; i<rowEnd; i++){
-            for(int j = colStart; j < colEnd; j++){
-                if(board[i][j] != '.'){
-                    mpp[board[i][j]]++;
-                }
+    //     for(int i = rowStart; i<rowEnd; i++){
+    //         for(int j = colStart; j < colEnd; j++){
+    //             if(board[i][j] != '.'){
+    //                 mpp[board[i][j]]++;
+    //             }
 
-                if(mpp[board[i][j]] > 1){
-                    return false;
-                }
-            }
-        }
+    //             if(mpp[board[i][j]] > 1){
+    //                 return false;
+    //             }
+    //         }
+    //     }
 
-        mpp.clear();
+    //     mpp.clear();
 
-        return true;
-    }
+    //     return true;
+    // }
 
     bool isValidSudoku(vector<vector<char>>& board) {
-        // Case 1:
-        if(!checkRowValidity(board)) return false;
+        // // Case 1:
+        // if(!checkRowValidity(board)) return false;
 
-        //Case 2:
-        vector<vector<char>> rotatedBoard = clockWiseRotation(board);
-        if(!checkRowValidity(rotatedBoard)) return false;
+        // //Case 2:
+        // vector<vector<char>> rotatedBoard = clockWiseRotation(board);
+        // if(!checkRowValidity(rotatedBoard)) return false;
 
-        //case 3: check all sub-boxes
-        for(int rowStart = 0; rowStart < 9; rowStart += 3){
-            int rowEnd = rowStart + 3;
-            for(int colStart = 0; colStart < 9; colStart += 3){
-                int colEnd = colStart + 3;
-                if(!validateSubBoxes(board, rowStart, rowEnd, colStart, colEnd)) return false;
+        // //case 3: check all sub-boxes
+        // for(int rowStart = 0; rowStart < 9; rowStart += 3){
+        //     int rowEnd = rowStart + 3;
+        //     for(int colStart = 0; colStart < 9; colStart += 3){
+        //         int colEnd = colStart + 3;
+        //         if(!validateSubBoxes(board, rowStart, rowEnd, colStart, colEnd)) return false;
+        //     }
+        // }
+
+        // return true;
+
+
+
+
+
+        // Let's do this question by more simpler and perfect approach:
+        unordered_set<string> st;
+        for(int i = 0; i<9; i++){
+            for(int j = 0; j<9; j++){
+                if(board[i][j] != '.'){
+                    string row = string(1, board[i][j]) + "_Row_" + to_string(i);
+                    string col = string(1, board[i][j]) + "_Col_" + to_string(j);
+                    string box = string(1, board[i][j]) + "_Box_" + to_string(i/3) + "_" + to_string(j/3);
+
+                    if(st.find(row) != st.end() || st.find(col) != st.end() || st.find(box) != st.end()){
+                        return false;
+                    }
+
+                    st.insert(row);
+                    st.insert(col);
+                    st.insert(box);
+                }
             }
         }
 
