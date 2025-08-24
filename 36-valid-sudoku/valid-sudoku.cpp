@@ -61,15 +61,13 @@ public:
         if(!checkRowValidity(rotatedBoard)) return false;
 
         //case 3: check all sub-boxes
-        if(!validateSubBoxes(board, 0, 3, 0, 3)) return false;
-        if(!validateSubBoxes(board, 0, 3, 3, 6)) return false;
-        if(!validateSubBoxes(board, 0, 3, 6, 9)) return false;
-        if(!validateSubBoxes(board, 3, 6, 0, 3)) return false;
-        if(!validateSubBoxes(board, 3, 6, 3, 6)) return false;
-        if(!validateSubBoxes(board, 3, 6, 6, 9)) return false;
-        if(!validateSubBoxes(board, 6, 9, 0, 3)) return false;
-        if(!validateSubBoxes(board, 6, 9, 3, 6)) return false;
-        if(!validateSubBoxes(board, 6, 9, 6, 9)) return false;
+        for(int rowStart = 0; rowStart < 9; rowStart += 3){
+            int rowEnd = rowStart + 3;
+            for(int colStart = 0; colStart < 9; colStart += 3){
+                int colEnd = colStart + 3;
+                if(!validateSubBoxes(board, rowStart, rowEnd, colStart, colEnd)) return false;
+            }
+        }
 
         return true;
     }
