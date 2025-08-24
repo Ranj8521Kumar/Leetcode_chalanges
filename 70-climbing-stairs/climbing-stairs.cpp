@@ -1,31 +1,22 @@
 class Solution {
 public:
-// using buttom up approach with constant space complexity
-    int solve(int n, vector<int>& arr){
-        if(n < 0){
-            return 0;
-        }
-
+    int solve(int n, int dp[]){
         if(n <= 2){
             return n;
         }
 
-        int a = 1; // i - 2
-        int b = 2; // i - 1
-        int c;
-        for(int i = 3; i<=n; i++){
-            c = a + b;
+        if(dp[n] != -1) return dp[n];
 
-            a = b;
-            b = c;
-        }
+        int oneStep = solve(n-1, dp);
+        int twoStep = solve(n-2, dp);
 
-        return c;
+        return dp[n] = oneStep + twoStep;
     }
 
     int climbStairs(int n) {
-        vector<int> arr(n+1, -1);
-    
-        return solve(n, arr);
+        int dp[n+1];
+        memset(dp, -1, sizeof(dp));
+
+        return solve(n, dp);
     }
 };
