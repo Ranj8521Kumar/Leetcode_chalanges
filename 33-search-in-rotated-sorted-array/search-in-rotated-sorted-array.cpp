@@ -2,10 +2,11 @@ class Solution {
 public:
     int binarySearch(vector<int> &nums, int target,  int low, int high, int idx){
         int mid = (high - low)/2 + low;
+        int tempMid = (mid + idx) % (nums.size());
 
         while(low <= high){
-            if(nums[mid] == target) return (mid + idx) % (nums.size());
-            else if(nums[mid] < target){
+            if(nums[tempMid] == target) return tempMid;
+            else if(nums[tempMid] < target){
                 return binarySearch(nums, target, mid+1, high, idx);
             }else{
                 return binarySearch(nums, target, low, mid-1, idx);
@@ -25,8 +26,6 @@ public:
                 break;
             }
         }
-
-        sort(nums.begin(), nums.end());
 
         int targetIdx = binarySearch(nums,  target, 0, n-1, idx);
 
