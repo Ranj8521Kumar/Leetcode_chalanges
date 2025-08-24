@@ -1,8 +1,12 @@
 class Solution {
 public:
     void makeSameLengthString(string &str, int n1, int n2){
+        reverse(str.begin(), str.end());
         int diff = abs(n1 - n2);
-        str = string(diff, '0') + str;
+        while(diff--){
+            str.push_back('0');
+        }
+        reverse(str.begin(), str.end());
     }
 
     string addBinary(string a, string b) {
