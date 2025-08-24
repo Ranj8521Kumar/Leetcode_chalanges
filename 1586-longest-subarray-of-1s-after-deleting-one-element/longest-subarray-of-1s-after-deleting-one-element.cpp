@@ -5,19 +5,14 @@ public:
         int n = arr.size();
         int result = 0;
         int zeroCount = 0;
+        int last_zero_idx = -1;
         int i = 0;
         bool hasZero = false;
         for(int j = 0; j<n; j++){
             if(arr[j] == 0){
-                zeroCount++;
                 hasZero = true;
-            }
-            
-            while(zeroCount > 1){
-                if(arr[i] == 0){
-                    zeroCount--;
-                }
-                i++;
+                i = last_zero_idx + 1;
+                last_zero_idx = j;
             }
 
             result = max(result, (j - i));
