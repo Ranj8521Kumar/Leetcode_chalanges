@@ -1,61 +1,89 @@
 class Solution {
 public:
-    int m, n;
-    bool isSafe(int x, int y){
-        if(x < m && x >= 0 && y < n && y >= 0){
-            return true;
+//     int m, n;
+//     bool isSafe(int x, int y){
+//         if(x < m && x >= 0 && y < n && y >= 0){
+//             return true;
+//         }
+
+//         return false;
+//     }
+
+//     void traverse(int &dir, int i, int j, vector<int> &result, vector<vector<int>> &mat){
+//         queue<pair<int, int>> que;
+
+//         que.push({i, j});
+//         vector<int> temp;
+
+//         while(!que.empty()){
+//             auto it = que.front(); que.pop();
+//             int x = it.first;
+//             int y = it.second;
+
+//             temp.push_back(mat[x][y]);
+//             int newX = x + (1);
+//             int newY = y + (-1);
+
+//             if(isSafe(newX, newY)){
+//                 que.push({newX, newY});
+//             } 
+//         }
+
+//         if(dir == 0){
+//             reverse(temp.begin(), temp.end());
+//             result.insert(result.end(), temp.begin(), temp.end());
+//             }else{
+//                 result.insert(result.end(), temp.begin(), temp.end());
+//             }
+
+//         dir = 1 - dir;
+// }
+
+    vector<int> findDiagonalOrder(vector<vector<int>>& mat) {
+        // m = mat.size();
+        // n = mat[0].size();
+        // vector<int> result;
+
+        // int dir = 0; //up and 1 => down
+
+        // // From Upper Row Traversal
+        // for(int j = 0; j<n; j++){
+        //     traverse(dir, 0, j, result, mat);
+        // }
+
+        // // From Right Most Traversal
+        // for(int i = 1; i<m; i++){
+        //     traverse(dir, i, (n-1), result, mat);
+        // }
+
+        // return result;
+
+
+
+
+
+        // Let's do this question using [i+j] technique
+        int m = mat.size();
+        int n = mat[0].size();
+        vector<int> result;
+        unordered_map<int, vector<int>> mpp;
+
+        for(int i = 0; i<m; i++){
+            for(int j = 0; j<n; j++){
+                mpp[i+j].push_back(mat[i][j]);
+            }
         }
 
-        return false;
-    }
-
-    void traverse(int &dir, int i, int j, vector<int> &result, vector<vector<int>> &mat){
-        queue<pair<int, int>> que;
-
-        que.push({i, j});
-        vector<int> temp;
-
-        while(!que.empty()){
-            auto it = que.front(); que.pop();
-            int x = it.first;
-            int y = it.second;
-
-            temp.push_back(mat[x][y]);
-            int newX = x + (1);
-            int newY = y + (-1);
-
-            if(isSafe(newX, newY)){
-                que.push({newX, newY});
-            } 
-        }
-
-        if(dir == 0){
-            reverse(temp.begin(), temp.end());
-            result.insert(result.end(), temp.begin(), temp.end());
+        for(int i = 0; i<=(m + n -2); i++){
+            vector<int> temp = mpp[i];
+            if(i % 2 == 0){
+                result.insert(result.end(), temp.rbegin(), temp.rend());
             }else{
                 result.insert(result.end(), temp.begin(), temp.end());
             }
-
-        dir = 1 - dir;
-}
-
-    vector<int> findDiagonalOrder(vector<vector<int>>& mat) {
-        m = mat.size();
-        n = mat[0].size();
-        vector<int> result;
-
-        int dir = 0; //up and 1 => down
-
-        // From Upper Row Traversal
-        for(int j = 0; j<n; j++){
-            traverse(dir, 0, j, result, mat);
-        }
-
-        // From Right Most Traversal
-        for(int i = 1; i<m; i++){
-            traverse(dir, i, (n-1), result, mat);
         }
 
         return result;
+
     }
 };
