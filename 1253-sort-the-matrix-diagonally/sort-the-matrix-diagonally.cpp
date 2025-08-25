@@ -1,17 +1,5 @@
 class Solution {
 public:
-    void fillMat(vector<vector<int>>& mat, int k, vector<int> &arr){
-        int r = 0;
-        for(int i = 0; i<mat.size(); i++){
-            for(int j = 0; j<mat[0].size(); j++){
-                if((i - j) == k){
-                    mat[i][j] = arr[r];
-                    r++;
-                }
-            }
-        }
-    }
-
     vector<vector<int>> diagonalSort(vector<vector<int>>& mat) {
         // Let's Apply [i - j] Technique
         int m = mat.size();
