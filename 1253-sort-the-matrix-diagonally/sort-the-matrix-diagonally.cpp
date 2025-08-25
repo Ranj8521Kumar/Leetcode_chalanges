@@ -26,9 +26,14 @@ public:
         }
 
         for(auto &it: mpp){
-            vector<int> arr = it.second;
-            sort(arr.begin(), arr.end());
-            fillMat(mat, it.first, arr);
+             sort(it.second.rbegin(), it.second.rend());
+        }
+
+        for(int i = 0; i<m; i++){
+            for(int j = 0; j<n; j++){
+                mat[i][j] = mpp[i-j].back();
+                mpp[i-j].pop_back();
+            }
         }
 
         return mat;
