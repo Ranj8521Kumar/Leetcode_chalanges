@@ -37,7 +37,6 @@ public:
             }
 
         dir = 1 - dir;
-
 }
 
     vector<int> findDiagonalOrder(vector<vector<int>>& mat) {
@@ -47,15 +46,16 @@ public:
 
         int dir = 0; //up and 1 => down
 
+        // From Upper Row Traversal
         for(int j = 0; j<n; j++){
             traverse(dir, 0, j, result, mat);
         }
 
+        // From Right Most Traversal
         for(int i = 1; i<m; i++){
             traverse(dir, i, (n-1), result, mat);
         }
 
         return result;
-
     }
 };
