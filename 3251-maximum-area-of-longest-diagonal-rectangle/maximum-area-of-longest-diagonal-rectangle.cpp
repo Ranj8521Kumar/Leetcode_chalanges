@@ -1,13 +1,13 @@
 class Solution {
 public:
     int areaOfMaxDiagonal(vector<vector<int>>& dimensions) {
-        double maxLen = DBL_MIN;
+        int maxLen = INT_MIN;
         int result = 0;
 
         for(auto &vec: dimensions){
             int l = vec[0];
             int w = vec[1];
-            double diagonalLen = sqrt((l*l) + (w*w));
+            int diagonalLen = ((l*l) + (w*w));
 
             if(diagonalLen > maxLen){
                 result = (l*w);
