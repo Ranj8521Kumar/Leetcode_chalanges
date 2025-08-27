@@ -33,7 +33,7 @@ public:
                 if(grid[i][j] == 1){
                     for(int d = 0; d<4; d++){
                         t[i][j][d][0] = 1;
-                        //t[i][j][d][1] = 1;
+                        t[i][j][d][1] = 1;
                         result = max(result, DFS(i, j, d, 0, 2, grid) + 1);
                     }
                 }
