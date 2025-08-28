@@ -43,6 +43,7 @@ public:
             }
         }
 
+        //return (!result.empty()) ? result : {0}; // This will throw the error like ternary operator(?:) requires both sides to be of the same type
         return (!result.empty()) ? result : vector<int> {0};
     }
 
