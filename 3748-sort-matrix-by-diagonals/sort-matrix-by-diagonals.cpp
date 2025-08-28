@@ -7,6 +7,8 @@ public:
 
         vector<int> temp;
 
+        // There is one noted point is that idf I stay on a element and If I want to move in diagonal then increase x and y both by one at same time
+
         while(i<m && j < n){
             temp.push_back(grid[i++][j++]);
         }
