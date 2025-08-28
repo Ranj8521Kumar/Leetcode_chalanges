@@ -1,6 +1,7 @@
 class Solution {
 public:
     vector<vector<int>> sortMatrix(vector<vector<int>>& grid) {
+        // Let's try out [i - j] approach:
         int m = grid.size();
         int n = grid[0].size();
         unordered_map<int, vector<int>> mpp;
