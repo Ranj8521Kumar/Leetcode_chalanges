@@ -2,8 +2,10 @@ class Solution {
 public:
     int m, n;
     int solve(int r1, int r2, int d, vector<vector<int>>& matrix){
-        vector<int> temp(n, 0);
+        // r --> remove when commented code is uncomment
+        // vector<int> temp(n, 0);
         int currDist = 0;
+        int result = 0; //r
 
         for(int j = 0; j<n; j++){
             bool isZero = false;
@@ -19,17 +21,18 @@ public:
             }else{
                 currDist++;
                 if(currDist >= d){
-                    temp[j] = 1;
+                    // temp[j] = 1;
+                    result += 1;//r
                 }
             }
         }
 
-        int result = 0;
-        for(auto &it: temp){
-            if(it == 1){
-                result += it;
-            }
-        }
+        // int result = 0;
+        // for(auto &it: temp){
+        //     if(it == 1){
+        //         result += it;
+        //     }
+        // }
 
         return result;
     }
