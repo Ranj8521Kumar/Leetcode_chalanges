@@ -1,20 +1,50 @@
 class Solution {
 public:
-        int countSquares(vector<vector<int>>& matrix) {
-        int m = matrix.size(), n = matrix[0].size(), totalSquares = 0;
-        vector<vector<int>> dp(m, vector<int>(n, 0));
+    int m, n;
+    int solve(int r1, int r2, int d, vector<vector<int>>& matrix){
+        vector<int> temp(n, 0);
+        int currDist = 0;
 
-        for (int i = 0; i < m; ++i) {
-            for (int j = 0; j < n; ++j) {
-                if (matrix[i][j] == 1) {
-                    if (i == 0 || j == 0)
-                        dp[i][j] = 1;
-                    else
-                        dp[i][j] = min({dp[i-1][j], dp[i][j-1], dp[i-1][j-1]}) + 1;
-                    totalSquares += dp[i][j];
+        for(int j = 0; j<n; j++){
+            bool isZero = false;
+            for(int i = r1; i<=r2; i++){
+                if(matrix[i][j] == 0){
+                    isZero = true;
+                    break;
+                }
+            }
+
+            if(isZero){
+                currDist = 0;
+            }else{
+                currDist++;
+                if(currDist >= d){
+                    temp[j] = 1;
                 }
             }
         }
-        return totalSquares;
+
+        int result = 0;
+        for(auto &it: temp){
+            if(it == 1){
+                result += it;
+            }
+        }
+
+        return result;
+    }
+
+    int countSquares(vector<vector<int>>& matrix) {
+        m = matrix.size();
+        n = matrix[0].size();
+        int result = 0;
+
+        for(int r1 = 0; r1<m; r1++){
+            for(int r2 = r1; r2<m; r2++){
+                result += solve(r1, r2, (r2 - r1 + 1), matrix);
+            }
+        }
+
+        return result;
     }
 };
