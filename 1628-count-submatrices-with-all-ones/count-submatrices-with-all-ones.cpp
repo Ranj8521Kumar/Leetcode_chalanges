@@ -2,7 +2,9 @@ class Solution {
 public:
     int m, n;
     int solve(int r1, int r2, vector<vector<int>>& mat){
-        vector<int> temp(n, 0);
+        // vector<int> temp(n, 0);
+        int prev = 0;
+        int result = 0;
         
         for(int j = 0; j < n; j++){
             bool isZero = false;
@@ -14,16 +16,20 @@ public:
             }
 
             if(!isZero){
-                temp[j] = (j == 0) ? 1 : temp[j-1] + 1;
+                // temp[j] = (j == 0) ? 1 : temp[j-1] + 1;
+                prev = prev + 1;
+                result += prev;
+            }else{
+                prev = 0;
             }
         }
 
-        int result = 0;
-        for(auto &it: temp){
-            if(it != 0){
-                result += it;
-            }
-        }
+        // int result = 0;
+        // for(auto &it: temp){
+        //     if(it != 0){
+        //         result += it;
+        //     }
+        // }
 
         return result;
     }
