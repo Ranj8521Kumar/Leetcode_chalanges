@@ -13,15 +13,21 @@ public:
 
         // return result;
 
-        int o1 = (n % 2 == 0) ? n/2 : (n + 1)/2;
-        int e1 = (n % 2 == 0) ? n/2 : (n)/2;
+
+        // Second Approach:
+        // int o1 = (n % 2 == 0) ? n/2 : (n + 1)/2;
+        // int e1 = (n % 2 == 0) ? n/2 : (n)/2;
 
 
-        int o2 = (m % 2 == 0) ? m/2 : (m + 1)/2;
-        int e2 = (m % 2 == 0) ? m/2 : (m)/2;
+        // int o2 = (m % 2 == 0) ? m/2 : (m + 1)/2;
+        // int e2 = (m % 2 == 0) ? m/2 : (m)/2;
 
-        long long result = ((long long)o1 * (long long)e2) + ((long long)e1 * (long long)o2);
+        // long long result = ((long long)o1 * (long long)e2) + ((long long)e1 * (long long)o2);
 
-        return result;
+        // return result;
+
+
+        // Thrird Approach ---> copy of the second:
+        return 1LL * ((n + 1)/2) * (m / 2) + 1LL * (n / 2) * ((m + 1) / 2);
     }
 };
