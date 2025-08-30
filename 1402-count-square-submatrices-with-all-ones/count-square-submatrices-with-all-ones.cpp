@@ -1,28 +1,28 @@
 class Solution {
 public:
-    int m, n;
-    int t[301][301];
-    int isSafe(int x, int y){
-        if(x >= 0 && x < m && y >= 0 && y < n){
-            return true;
-        }
+    // int m, n;
+    // int t[301][301];
+    // int isSafe(int x, int y){
+    //     if(x >= 0 && x < m && y >= 0 && y < n){
+    //         return true;
+    //     }
 
-        return false;
-    }
+    //     return false;
+    // }
 
-    int solveRecurrsion(int x, int y, vector<vector<int>>& matrix){
-        if(!isSafe(x, y) || matrix[x][y] == 0){
-            return 0;
-        }
+    // int solveRecurrsion(int x, int y, vector<vector<int>>& matrix){
+    //     if(!isSafe(x, y) || matrix[x][y] == 0){
+    //         return 0;
+    //     }
 
-        if(t[x][y] != -1) return t[x][y];
+    //     if(t[x][y] != -1) return t[x][y];
 
-        int right = solveRecurrsion(x, y+1, matrix);
-        int diagonal = solveRecurrsion(x+1, y+1, matrix);
-        int buttom = solveRecurrsion(x+1, y, matrix);
+    //     int right = solveRecurrsion(x, y+1, matrix);
+    //     int diagonal = solveRecurrsion(x+1, y+1, matrix);
+    //     int buttom = solveRecurrsion(x+1, y, matrix);
 
-        return t[x][y] = 1 + min(right, min(diagonal, buttom));
-    }
+    //     return t[x][y] = 1 + min(right, min(diagonal, buttom));
+    // }
 
 
 
@@ -83,15 +83,46 @@ public:
 
 
         // Let's Try out another approach that is Recurrsion + Memoization:
-        m = matrix.size();
-        n = matrix[0].size();
-        int result = 0;
+        // m = matrix.size();
+        // n = matrix[0].size();
+        // int result = 0;
 
-        memset(t, -1, sizeof(t));
+        // memset(t, -1, sizeof(t));
+
+        // for(int i = 0; i<m; i++){
+        //     for(int j = 0; j<n; j++){
+        //         result += solveRecurrsion(i, j, matrix);
+        //     }
+        // }
+
+        // return result;
+
+
+
+
+
+        // Third Approach is Buttom-Up Approach:
+        int m = matrix.size();
+        int n = matrix[0].size();
+        int result = 0;
+    
+        vector<vector<int>> t(m, vector<int>(n, 0));
 
         for(int i = 0; i<m; i++){
             for(int j = 0; j<n; j++){
-                result += solveRecurrsion(i, j, matrix);
+                t[i][j] = matrix[i][j];
+            }
+        }
+
+        for(int i = 0; i<m; i++){
+            for(int j = 0; j<n; j++){
+                if(i == 0 || j == 0){
+                    t[i][j] = matrix[i][j];
+                }else if(matrix[i][j] == 1){
+                    t[i][j] = (1 + min({t[i-1][j], t[i-1][j-1], t[i][j-1]}));
+                }
+
+                result += t[i][j];
             }
         }
 
