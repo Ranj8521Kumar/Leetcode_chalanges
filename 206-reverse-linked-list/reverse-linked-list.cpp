@@ -10,18 +10,37 @@
  */
 class Solution {
 public:
+    ListNode* reverse(ListNode* prev, ListNode* curr,  ListNode* nxt){
+        if(curr == nullptr) return prev;
+
+        nxt = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = nxt;
+
+        return reverse(prev, curr, nxt);
+    }
+
     ListNode* reverseList(ListNode* head) {
+        // ListNode* prev = nullptr;
+        // ListNode* curr = head;
+        // ListNode* nxt = nullptr;
+
+        // while(curr){
+        //     nxt = curr->next;
+        //     curr->next = prev;
+        //     prev = curr;
+        //     curr = nxt;
+        // }
+
+        // return prev;
+
+
+        // using recursion method:
         ListNode* prev = nullptr;
         ListNode* curr = head;
         ListNode* nxt = nullptr;
 
-        while(curr){
-            nxt = curr->next;
-            curr->next = prev;
-            prev = curr;
-            curr = nxt;
-        }
-
-        return prev;
+        return reverse(prev, curr, nxt);
     }
 };
