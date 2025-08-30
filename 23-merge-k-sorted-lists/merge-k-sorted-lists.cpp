@@ -10,39 +10,39 @@
  */
 class Solution {
 public:
-    ListNode* merge(ListNode* head1, ListNode* head2){
-        ListNode* dummyNode = new ListNode(-1);
-        ListNode* current = dummyNode;
+    // ListNode* merge(ListNode* head1, ListNode* head2){
+    //     ListNode* dummyNode = new ListNode(-1);
+    //     ListNode* current = dummyNode;
 
-        while(head1 && head2){
-            if(head1->val <= head2->val){
-                current->next = head1;
-                head1 = head1->next;
-            }else{
-                current->next = head2;
-                head2 = head2->next;
-            }
-            current = current->next;
-        }
+    //     while(head1 && head2){
+    //         if(head1->val <= head2->val){
+    //             current->next = head1;
+    //             head1 = head1->next;
+    //         }else{
+    //             current->next = head2;
+    //             head2 = head2->next;
+    //         }
+    //         current = current->next;
+    //     }
 
-        while(head1){
-            current->next = head1;
-            current = current->next;
-            head1 = head1->next;
-        }
+    //     while(head1){
+    //         current->next = head1;
+    //         current = current->next;
+    //         head1 = head1->next;
+    //     }
 
-        while(head2){
-            current->next = head2;
-            current = current->next;
-            head2 = head2->next;
-        }
+    //     while(head2){
+    //         current->next = head2;
+    //         current = current->next;
+    //         head2 = head2->next;
+    //     }
 
-        return dummyNode->next;
-    }
+    //     return dummyNode->next;
+    // }
 
     ListNode* mergeRecursion(ListNode* head1, ListNode* head2){
-        if(head1 == nullptr) return head1;
-        if(head2 == nullptr) return head2;
+        if(head1 == nullptr) return head2;
+        if(head2 == nullptr) return head1;
 
         if(head1->val <= head2->val){
             head1->next = mergeRecursion(head1->next, head2);
@@ -63,7 +63,7 @@ public:
         ListNode* l1 = partionAndMerge(s, mid, lists);
         ListNode* l2 = partionAndMerge(mid + 1, e, lists);
 
-        return merge(l1, l2);
+        return mergeRecursion(l1, l2);
     }
 
     ListNode* mergeKLists(vector<ListNode*>& lists) {
