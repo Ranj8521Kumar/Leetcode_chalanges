@@ -80,17 +80,19 @@ public:
         for(int i = 0; i<9; i++){
             for(int j = 0; j<9; j++){
                 if(board[i][j] != '.'){
-                    string row = string(1, board[i][j]) + "_Row_" + to_string(i);
-                    string col = string(1, board[i][j]) + "_Col_" + to_string(j);
-                    string box = string(1, board[i][j]) + "_Box_" + to_string(i/3) + "_" + to_string(j/3);
+                    string row = string(1, board[i][j]) + " Row " + to_string(i);
 
-                    if(st.find(row) != st.end() || st.find(col) != st.end() || st.find(box) != st.end()){
+                    string box = string(1, board[i][j]) + " Box " + to_string(i/3) + " and " + to_string(j/3);
+
+                    string col = string(1, board[i][j]) + " Col " + to_string(j);
+
+                    if(st.find(row) != st.end() || st.find(box) != st.end() || st.find(col) != st.end()){
                         return false;
                     }
 
                     st.insert(row);
-                    st.insert(col);
                     st.insert(box);
+                    st.insert(col);
                 }
             }
         }
