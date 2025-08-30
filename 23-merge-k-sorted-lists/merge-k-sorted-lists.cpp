@@ -40,14 +40,48 @@ public:
         return dummyNode->next;
     }
 
-    ListNode* mergeKLists(vector<ListNode*>& lists) {
-        int k = lists.size();
-        ListNode* list1 = nullptr;
+    ListNode* mergeRecursion(ListNode* head1, ListNode* head2){
+        if(head1 == nullptr) return head1;
+        if(head2 == nullptr) return head2;
 
-        for(auto &list2 : lists){
-            list1 = merge(list1, list2);
+        if(head1->val <= head2->val){
+            head1->next = mergeRecursion(head1->next, head2);
+            return head1;
+        }else{
+            head2->next = mergeRecursion(head1, head2->next);
+            return head2;
+        }
+    }
+
+    ListNode* partionAndMerge(int s, int e, vector<ListNode*>& lists){
+        if(s == e){
+            return lists[e];
         }
 
-        return list1;
+        int mid = s + (e - s)/2;
+
+        ListNode* l1 = partionAndMerge(s, mid, lists);
+        ListNode* l2 = partionAndMerge(mid + 1, e, lists);
+
+        return merge(l1, l2);
+    }
+
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        // int k = lists.size();
+        // ListNode* list1 = nullptr;
+
+        // for(auto &list2 : lists){
+        //     list1 = merge(list1, list2);
+        // }
+
+        // return list1;
+
+
+        //Let's try more efficient Approach using merge sort
+        int k = lists.size();
+
+        if(k == 0) return nullptr;
+
+        return partionAndMerge(0, k-1, lists);
     }
 };
