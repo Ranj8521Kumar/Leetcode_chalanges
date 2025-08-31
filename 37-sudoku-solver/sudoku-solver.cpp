@@ -1,5 +1,5 @@
-class Solution {
-public:
+// class Solution {
+// public:
 //     // This is throw the TLE:
 //     bool backtrack(vector<vector<char>>& board, unordered_set<string> &st, int i, int j){
 //         // Base Case:
@@ -65,50 +65,114 @@ public:
 
 
 
-// try using memoize/simple array storing approach:
-    bool row[9][10] = {}, col[9][10] = {}, box[9][10] = {};
-    bool backtrack(vector<vector<char>>& board, int i, int j){
-        // Base Case:
-        if(i == 9) return true;
-        if(j == 9) return backtrack(board, i+1, 0);
+// // try using memoize/simple array storing approach:
+//     bool row[9][10] = {}, col[9][10] = {}, box[9][10] = {};
+//     bool backtrack(vector<vector<char>>& board, int i, int j){
+//         // Base Case:
+//         if(i == 9) return true;
+//         if(j == 9) return backtrack(board, i+1, 0);
 
-        if(board[i][j] != '.'){
-            return backtrack(board, i, j+1);
-        }
+//         if(board[i][j] != '.'){
+//             return backtrack(board, i, j+1);
+//         }
 
-        int b = (i/3) * 3 + (j/3); //unique id for each cell in sub-boxes
+//         int b = (i/3) * 3 + (j/3); //unique id for each cell in sub-boxes
 
-        for(int d = 1; d<=9; d++){
+//         for(int d = 1; d<=9; d++){
             
 
-            if(!row[i][d] && !col[j][d] && !box[b][d]){
-                board[i][j] = d + '0';
-                row[i][d] = col[j][d] = box[b][d] = true;
+//             if(!row[i][d] && !col[j][d] && !box[b][d]){
+//                 board[i][j] = d + '0';
+//                 row[i][d] = col[j][d] = box[b][d] = true;
 
-                if(backtrack(board, i, j+1)) return true;
+//                 if(backtrack(board, i, j+1)) return true;
 
-                // If fails then undo the pushed value
-                board[i][j] = '.';
-                row[i][d] = col[j][d] = box[b][d] = false;
-            }
+//                 // If fails then undo the pushed value
+//                 board[i][j] = '.';
+//                 row[i][d] = col[j][d] = box[b][d] = false;
+//             }
+//         }
+
+//         return false;
+//     }
+
+
+//     void solveSudoku(vector<vector<char>>& board) {
+//         for(int i = 0; i<9; i++){
+//             for(int j= 0; j<9; j++){
+//                 if(board[i][j] != '.'){
+//                     int d = board[i][j] - '0';
+//                     int b = (i/3) * 3 + (j/3);
+
+//                     row[i][d] = col[j][d] = box[b][d] = true;
+//                 }
+//             }
+//         }
+
+//         backtrack(board, 0, 0);
+//     }
+// };
+
+
+
+
+
+
+
+
+
+
+
+// Another Approach:
+class Solution {
+public:
+    bool isValid(vector<vector<char>>& board, int row, int col, char d){
+        // row and column check
+        for(int i = 0; i<9; i++){
+            if(board[i][col] == d) return false;
+            if(board[row][i] == d) return false;
         }
 
-        return false;
+        // box check
+        int start_i = (row/3)*3;
+        int start_j = (col/3)*3;
+
+        for(int k = 0; k<3; k++){
+            for(int l = 0; l<3; l++){
+                if(board[start_i + k][start_j + l] == d){
+                    return false;
+                }
+            }
+        }
+        
+        return true;
     }
 
 
-    void solveSudoku(vector<vector<char>>& board) {
+    bool solve(vector<vector<char>>& board){
         for(int i = 0; i<9; i++){
-            for(int j= 0; j<9; j++){
-                if(board[i][j] != '.'){
-                    int d = board[i][j] - '0';
-                    int b = (i/3) * 3 + (j/3);
+            for(int j = 0; j<9; j++){
+                if(board[i][j] == '.'){
+                    for(char d = '1'; d<='9'; d++){
+                        if(isValid(board, i, j, d)){
+                            board[i][j] = d; //do
+                            if(solve(board)){ //Explore
+                                return true;
+                            }
+                            board[i][j] =  '.'; // undo
+                        }
+                    }
 
-                    row[i][d] = col[j][d] = box[b][d] = true;
+                    return false;
                 }
             }
         }
 
-        backtrack(board, 0, 0);
+        return true;
+    }
+
+
+    void solveSudoku(vector<vector<char>>& board) {
+        solve(board);
     }
 };
