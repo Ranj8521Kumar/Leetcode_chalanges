@@ -25,8 +25,9 @@ public:
     ListNode* reverseBetween(ListNode* head, int left, int right) {
         if(!head || !head->next || left == right) return head;
 
+        //ListNode* prev = nullptr; //this will crete a issue for prev->next, when prev still remain nullptr for line 45, so
         ListNode dummy(0, head);
-        ListNode* prev = &dummy;
+        ListNode*  prev = &dummy;
         ListNode* temp = head;
 
         int l = left - 1;
