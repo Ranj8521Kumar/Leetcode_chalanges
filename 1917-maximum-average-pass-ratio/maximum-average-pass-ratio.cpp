@@ -1,42 +1,34 @@
 class Solution {
 public:
-    //#define p pair<double, int> //{gain, index}
     double maxAverageRatio(vector<vector<int>>& classes, int extraStudents) {
         int n = classes.size();
+        int k = extraStudents;
+        priority_queue<pair<double, int>, vector<pair<double, int>>> pq;
 
-        priority_queue<pair<double, int>> maxHeap;
-
-        int index = 0;
-        for(auto &vec: classes){
-            double ratio = (double)vec[0]/vec[1];
-            double updatedRatio = (double)(vec[0]+1)/(vec[1]+1);
-
-            double delta = updatedRatio - ratio;
-
-            maxHeap.push({delta, index});
-            index++;
+        for(int i = 0; i<n; i++){
+            vector<int> Class = classes[i];
+            double increase = ((double)(Class[0] + 1)) / (Class[1] + 1) - ((double)(Class[0])) / (Class[1]);
+            pq.push({increase, i});
         }
 
-        while(extraStudents--){
-            auto curr = maxHeap.top();
-            maxHeap.pop();
+        while(k--){
+            int idx = pq.top().second;
+            pq.pop();
 
-            int idx  = curr.second;
+            vector<int> &Class = classes[idx];
 
-            classes[idx][0] += 1;
-            classes[idx][1] += 1;
+            Class[0] += 1;
+            Class[1] += 1;
 
-            double ratio = (double)classes[idx][0]/classes[idx][1];
-            double updatedRatio = (double)(classes[idx][0]+1)/(classes[idx][1]+1);
-
-            double delta = updatedRatio - ratio;
-
-            maxHeap.push({delta, idx});
+            double increase = ((double)(Class[0] + 1)) / (Class[1] + 1) - ((double)(Class[0])) / (Class[1]);
+            pq.push({increase, idx});
         }
 
-        double result = 0.0;
-        for(auto &vec: classes){
-            result += (double)vec[0]/vec[1];
+        double result = 0;
+
+        for(int i = 0; i<n; i++){
+            vector<int> Class = classes[i];
+            result += ((double)(Class[0])) / (Class[1]);
         }
 
         return result/n;
