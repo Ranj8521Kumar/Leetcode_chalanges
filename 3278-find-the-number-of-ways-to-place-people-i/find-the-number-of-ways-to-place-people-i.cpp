@@ -99,17 +99,10 @@ public:
                 auto point1 = points[i];
                 auto point2 = points[j];
 
-                int x = point1[0];
                 int y = point1[1];
-
-                int nx = point2[0];
                 int ny = point2[1];
 
-                if(ny <= y){
-                    if((prev >= ny && prev <= y)){
-                        continue;
-                    }
-
+                if(ny <= y &&  prev < ny){
                     count++;
                     prev = ny;
                 }
