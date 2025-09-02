@@ -38,17 +38,17 @@ public:
         // return count;
 
 
-
+        // Let's Optimize:
         int n = points.size();
         int count = 0;
-        sort(points.begin(), points.end(), [](vector<int> &a, vector<int> &b){
+        sort(points.begin(), points.end(), [&](vector<int> &a, vector<int> &b){
             if(a[0] == b[0]){
                 return a[1] >= b[1];
             }
 
             return a[0] <= b[0];
         });
-        
+
         for(int i = 0; i<n; i++){
             for(int j = i+1; j<n; j++){
                 auto point1 = points[i];
