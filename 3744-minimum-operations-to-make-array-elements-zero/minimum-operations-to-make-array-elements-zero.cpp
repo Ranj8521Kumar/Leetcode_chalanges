@@ -1,6 +1,11 @@
 class Solution {
 public:
     long long solve(int l, int r){
+        // L, R ---> steps
+        // 1, 3 ---> 1
+        // 4, 15 ---> 2
+        // ................and so on
+
         long long steps = 0;
         long long L = 1;
         long long S = 1;
