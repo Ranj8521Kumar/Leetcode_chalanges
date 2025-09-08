@@ -11,26 +11,80 @@
  */
 class Solution {
 public:
-    int getDepth(TreeNode* root){
-        int depth = 0;
-        while(root){
-            root = root->left;
-            depth++;
+    // int getDepth(TreeNode* root){
+    //     int depth = 0;
+    //     while(root){
+    //         root = root->left;
+    //         depth++;
+    //     }
+
+    //     return depth;
+    // }
+
+    // int countNodes(TreeNode* root) {
+    //     if(!root) return 0;
+
+    //     int leftDepth = getDepth(root->left);
+    //     int rightDepth = getDepth(root->right);
+
+    //     if(leftDepth == rightDepth){
+    //         return (1 << leftDepth) + countNodes(root->right);
+    //     }else{
+    //         return (1 << rightDepth) + countNodes(root->left);
+    //     }
+    // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // Another Approach, More robust and understandable:
+    int getRightHeight(TreeNode* root){
+        TreeNode* temp = root;
+        int height = 0;
+
+        while(temp){
+            height++;
+            temp = temp->right;
         }
 
-        return depth;
+        return height;
     }
+
+
+    int getLeftHeight(TreeNode* root){
+        TreeNode* temp = root;
+        int height = 0;
+        
+        while(temp){
+            height++;
+            temp = temp->left;
+        }
+
+        return height;
+    }
+
+
 
     int countNodes(TreeNode* root) {
         if(!root) return 0;
 
-        int leftDepth = getDepth(root->left);
-        int rightDepth = getDepth(root->right);
+        int leftHeight = getLeftHeight(root);
+        int rightHeight = getRightHeight(root);
 
-        if(leftDepth == rightDepth){
-            return (1 << leftDepth) + countNodes(root->right);
+        if(leftHeight == rightHeight){
+            // return pow(2, leftHeight) - 1;
+            return (1 << leftHeight) - 1;
         }else{
-            return (1 << rightDepth) + countNodes(root->left);
+            return 1 + countNodes(root->left) + countNodes(root->right);
         }
     }
 };
