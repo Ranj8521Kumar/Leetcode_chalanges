@@ -1,8 +1,8 @@
 class Solution {
 public:
     int getSum(int a, int b) {
-        unsigned int ua = (unsigned int)a;
-        unsigned int ub = (unsigned int)b;
+        int ua = a;
+        int ub = b;
         int result = 0;
         int carry = 0;
         for(int k = 0; k<=31; k++){
