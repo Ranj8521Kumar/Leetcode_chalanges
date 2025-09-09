@@ -41,7 +41,7 @@ public:
         // Fourth Approach:
         if(n <= 0) return false;
         if((n & (n-1)) == 0){//power of 2
-            if((n - 1) % 3 == 0){//only true for power of 4
+            if((n - 1) % 3 == 0){//only true for power of 4(if number is also divided by 4)
                 return true;
             }
         }
