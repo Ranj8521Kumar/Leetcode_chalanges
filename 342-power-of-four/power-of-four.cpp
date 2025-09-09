@@ -26,9 +26,22 @@ public:
 
 
         // Third Approach:
-        if(n <= 0) return 0;
-        if((n & (n - 1)) == 0){ // Power of 2
-            if((n & (0x555555555)) != 0){ // power of 4(power of 2 has set bit at even position);
+        // if(n <= 0) return 0;
+        // if((n & (n - 1)) == 0){ // Power of 2
+        //     if((n & (0x555555555)) != 0){ // power of 4(power of 2 has set bit at even position);
+        //         return true;
+        //     }
+        // }
+
+        // return false;
+
+
+
+
+        // Fourth Approach:
+        if(n <= 0) return false;
+        if((n & (n-1)) == 0){//power of 2
+            if((n - 1) % 3 == 0){//only true for power of 4
                 return true;
             }
         }
