@@ -27,7 +27,7 @@ public:
 
 
         //Another Method:
-        char result = ' ';
+        char result = 0;
         for(auto &ch: s){
             result ^= ch;
         }
@@ -36,6 +36,6 @@ public:
             result ^= ch;
         }
 
-        return tolower(result);
+        return (result);
     }
 };
