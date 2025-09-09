@@ -1,13 +1,11 @@
 class Solution {
 public:
     int getSum(int a, int b) {
-        int ua = a;
-        int ub = b;
         int result = 0;
         int carry = 0;
         for(int k = 0; k<=31; k++){
-            int ra = (ua & 1);
-            int rb = (ub & 1);
+            int ra = (a & 1);
+            int rb = (b & 1);
 
             if(carry == 0){
                 if(ra == 0 && rb == 0){
@@ -29,8 +27,8 @@ public:
                 }
             }
 
-            ua >>= 1;
-            ub >>= 1;
+            a >>= 1;
+            b >>= 1;
         }
 
         return result;
