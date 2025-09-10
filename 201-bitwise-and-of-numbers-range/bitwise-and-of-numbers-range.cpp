@@ -29,14 +29,22 @@ public:
 
 
         // Optimized Approach:
-        int shift = 0;
-        while(left < right){ // shift untill left = right or till same prefix for left and right
-            left >>= 1;
-            right >>= 1;
+        // int shift = 0;
+        // while(left < right){ // shift untill left = right or till same prefix for left and right
+        //     left >>= 1;
+        //     right >>= 1;
 
-            shift++;
+        //     shift++;
+        // }
+
+        // return left << shift;
+
+
+        // Another Optimized approach:
+        while(left < right){
+            right = (right & (right - 1));
         }
 
-        return left << shift;
+        return (left & right);
     }
 };
