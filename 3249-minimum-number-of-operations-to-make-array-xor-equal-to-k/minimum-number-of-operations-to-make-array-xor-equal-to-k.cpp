@@ -28,12 +28,13 @@ public:
             Xor ^= num;
         }
         
-        for(int k = 0; k <= 31; k++){
-            if(((Xor >> k) & 1) != ((K >> k) & 1)){
-                minOper++;
-            }
-        }
+        // for(int k = 0; k <= 31; k++){
+        //     if(((Xor >> k) & 1) != ((K >> k) & 1)){
+        //         minOper++;
+        //     }
+        // }
 
-        return minOper;
+        int diff = Xor ^ K;
+        return __builtin_popcount(diff);
     }
 };
