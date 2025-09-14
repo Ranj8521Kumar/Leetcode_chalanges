@@ -26,21 +26,17 @@ public:
 
 
 
-     int maxSubArray(vector<int>& arr) {
-        int n = arr.size();
+     int maxSubArray(vector<int>& nums) {
         int sum = 0;
-        
         int maxSum = INT_MIN;
-        
-        for(int i = 0; i<n; i++){
-            sum += arr[i];
-            
+        for(auto &it: nums){
+            sum += it;
+
             maxSum = max(maxSum, sum);
-            
-            if(sum < 0){
-                sum = 0;
-            }
+
+            if(sum < 0) sum = 0;
         }
+
         return maxSum;
     }
 };
