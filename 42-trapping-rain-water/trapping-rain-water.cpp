@@ -1,39 +1,31 @@
 class Solution {
 public:
-    vector<int> getLeftMax(vector<int> &height, int n){
-        vector<int> leftMax(n, 0);
-
-        leftMax[0] = height[0];
-        for(int i = 1; i<n; i++){
-            leftMax[i] = max(leftMax[i-1], height[i]);
-        }
-
-        return leftMax;
-
-    }
-
-    vector<int>  getRightMax(vector<int>& height, int n){
-        vector<int> rightMax(n, 0);
-
-        rightMax[n-1] = height[n-1];
-        for(int  i = n-2; i>=0; i--){
-            rightMax[i] = max(rightMax[i+1], height[i]);
-        }
-
-        return rightMax;
-    }
-
-
     int trap(vector<int>& height) {
+        // Let's solve using two pointer Approach:
         int n = height.size();
+        int left = 0; int right = n - 1;
+        int leftMax = 0; int rightMax = 0;
+
         int result = 0;
 
-        vector<int> leftMax = getLeftMax(height, n);
-        vector<int> rightMax =  getRightMax(height, n);
+        while(left < right){
+            if(height[left] <= height[right]){
+                if(height[left] >= leftMax){
+                    leftMax = height[left];
+                }else{
+                    result += (leftMax - height[left]);
+                }
 
-        for(int i = 0; i<n; i++){
-            int  h = min(leftMax[i], rightMax[i]) - height[i];
-            result += h;
+                left++;
+            }else{
+                if(height[right] >= rightMax){
+                    rightMax = height[right];
+                }else{
+                    result += (rightMax - height[right]);
+                }
+
+                right--;
+            }
         }
 
         return result;
