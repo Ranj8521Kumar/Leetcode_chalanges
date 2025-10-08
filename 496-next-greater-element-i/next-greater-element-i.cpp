@@ -21,26 +21,61 @@ public:
 
 
 
-        // Optimized Approach, using increasing monostack
+        // // Optimized Approach, using increasing monostack
+        // int n = nums2.size();
+        // int m = nums1.size();
+
+        // stack<int> st;
+        // vector<int> temp(n, -1);
+
+        // for(int i = n-1; i>=0; i--){
+        //     while(!st.empty() && nums2[i] >= st.top()){
+        //         st.pop();
+        //     }
+
+        //     if(st.empty()){
+        //         st.push(nums2[i]);
+        //     }
+
+        //     if(nums2[i] < st.top()){
+        //         temp[i] = st.top();
+        //         st.push(nums2[i]);
+        //     }
+        // }
+
+        // unordered_map<int, int> mpp;
+        // for(int i = 0; i<n; i++){
+        //     mpp[nums2[i]] = i;
+        // }
+
+        // vector<int> ans(m, -1);
+
+        // for(int i = 0; i<m; i++){
+        //     int idx = mpp[nums1[i]];
+        //     ans[i] = temp[idx];
+        // }
+
+
+        // return ans;
+
+
+
+
+
+        // Optimized Approach, using decreasing monostack
         int n = nums2.size();
         int m = nums1.size();
 
-        stack<int> st;
+        stack<int> st; // store indices
         vector<int> temp(n, -1);
 
-        for(int i = n-1; i>=0; i--){
-            while(!st.empty() && nums2[i] >= st.top()){
+        for(int i = 0; i<n; i++){
+            while(!st.empty() && nums2[i] > nums2[st.top()]){
+                temp[st.top()] = nums2[i];
                 st.pop();
             }
 
-            if(st.empty()){
-                st.push(nums2[i]);
-            }
-
-            if(nums2[i] < st.top()){
-                temp[i] = st.top();
-                st.push(nums2[i]);
-            }
+            st.push(i);
         }
 
         unordered_map<int, int> mpp;
