@@ -50,15 +50,12 @@ public:
 
         // checxk the endWord and brginWord are in the list or not?
         bool isEndWord = false;
-        bool isBeginWord = false;
         int endIdx = -1;
 
         for(int i = 0; i<n; i++){
             if(endWord == wordList[i]){
                 endIdx = i+1;
                 isEndWord = true;
-            }else if(beginWord == wordList[i]){
-                isBeginWord = true;
             }
         }
 
