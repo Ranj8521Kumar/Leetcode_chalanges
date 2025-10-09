@@ -7,7 +7,7 @@ public:
         for(int i = 0; i<(1<<n); i++){
             vector<int> temp;
             int x = i;
-            for(int k=0; k<n; k++){
+            for(int k=0; k<32; k++){
                 if((x & 1) == 1){
                     temp.push_back(nums[k]);
                 }
