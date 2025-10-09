@@ -4,10 +4,10 @@ public:
         vector<vector<int>> result;
         int n = nums.size();
 
-        for(int i = 0; i<(pow(2, n)); i++){
+        for(int i = 0; i<(1<<n); i++){
             vector<int> temp;
             int x = i;
-            for(int k=0; k<32; k++){
+            for(int k=0; k<n; k++){
                 if((x & 1) == 1){
                     temp.push_back(nums[k]);
                 }
