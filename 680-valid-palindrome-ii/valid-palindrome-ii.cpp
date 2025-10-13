@@ -3,19 +3,19 @@ public:
     bool validPalindrome(string s) {
         unordered_map<char, int> mpp;
 
-        for(auto &ch: s){
-            mpp[ch]++;
-        }
+        // for(auto &ch: s){
+        //     mpp[ch]++;
+        // }
 
-        int oddCount = 0;
-        for(auto &it: mpp){
-            if(it.second % 2 != 0){
-                oddCount++;
-                if(oddCount > 2){
-                    return false;
-                }
-            }
-        }
+        // int oddCount = 0;
+        // for(auto &it: mpp){
+        //     if(it.second % 2 != 0){
+        //         oddCount++;
+        //         if(oddCount > 2){
+        //             return false;
+        //         }
+        //     }
+        // }
 
         int n = s.size();
         //Skip from right Side:
