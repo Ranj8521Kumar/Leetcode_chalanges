@@ -125,6 +125,12 @@ public:
             int x2 = (py == 0)?INT_MIN:nums2[py - 1];
             int x4 = ((py == n))?INT_MAX:nums2[py];
 
+            if(x1 > x4){
+                high = px - 1;
+            }else{
+                low = px + 1;
+            }
+
             if(x1 <= x4 && x2 <= x3){
                 if((m+n)%2 != 0){
                     result = (max(x1, x2));
@@ -134,11 +140,6 @@ public:
                 break;
             }
 
-            if(x1 > x4){
-                high = px - 1;
-            }else{
-                low = px + 1;
-            }
         }
 
         return result;
