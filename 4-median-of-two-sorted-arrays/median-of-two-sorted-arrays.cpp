@@ -72,7 +72,7 @@ public:
             int x3 = (px == m)?INT_MAX:nums1[px];
 
             int x2 = ((len-px) == 0)?INT_MIN:nums2[len-px-1];
-            int x4 = ((len-px) == n)?INT_MAX:nums2[len-px];
+            int x4 = ((len-n) == 0 && px == 0)?INT_MAX:nums2[len-px];
 
             if(x1 > x4){
                 high = px - 1;
