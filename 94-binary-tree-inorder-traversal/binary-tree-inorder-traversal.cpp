@@ -32,28 +32,70 @@
 
 
 
-// ------------------------------------------------------------- //
-// Using morris Traversal: No recursion and stack used here
+// // ------------------------------------------------------------- //
+// // Using morris Traversal: No recursion and stack used here
+
+// // This code changed the original code structure:
+// class Solution {
+//   public:
+  
+//     void morrisTraversal(TreeNode* root, vector<int> &result){
+//         TreeNode* curr = root;
+
+//         while(curr){
+//             if(curr->left == NULL){ // ydi current ka left null hai to curr ko visit kar lo aur uske right me chale jao
+//                 result.push_back(curr->val);
+//                 curr = curr->right;
+//             }else{// otherwise curr ke left ke rightmost Nodeknown as predecessor) pe chale jao aur rightmost node ke right ko curr se link kar do aur phir curr ko curr ke left me move karke curr ke left ko null mark kar do, means delete kar do
+//                 TreeNode* predecessor = curr->left;
+//                 while(predecessor->right != nullptr){
+//                     predecessor = predecessor->right;
+//                 }
+
+//                 predecessor->right = curr;
+//                 TreeNode* temp = curr->left;
+//                 curr->left = nullptr;
+//                 curr = temp;
+//             }
+//         }
+//     }
+  
+//     // Function to return a list containing the inorder traversal of the tree.
+//     vector<int> inorderTraversal(TreeNode* root) {
+//         vector<int> result;
+//         morrisTraversal(root, result);
+//         return result;
+//     }
+// };
+
+
+
+// This code didn't change the original code structure:
 class Solution {
   public:
-  
     void morrisTraversal(TreeNode* root, vector<int> &result){
         TreeNode* curr = root;
 
         while(curr){
-            if(curr->left == NULL){ // ydi current ka left null hai to curr ko visit kar lo aur uske right me chale jao
+            if(curr->left == NULL){
                 result.push_back(curr->val);
                 curr = curr->right;
-            }else{// otherwise curr ke left ke rightmost Nodeknown as predecessor) pe chale jao aur rightmost node ke right ko curr se link kar do aur phir curr ko curr ke left me move karke curr ke left ko null mark kar do, means delete kar do
+            }else{
                 TreeNode* predecessor = curr->left;
-                while(predecessor->right != nullptr){
+                while(predecessor->right != nullptr && predecessor->right != curr){
                     predecessor = predecessor->right;
                 }
 
-                predecessor->right = curr;
-                TreeNode* temp = curr->left;
-                curr->left = nullptr;
-                curr = temp;
+                if(predecessor->right == nullptr){
+                    //make thread
+                    predecessor->right = curr;
+                    curr = curr->left;
+                }else{
+                    //remove thread
+                    predecessor->right = nullptr;
+                    result.push_back(curr->val);
+                    curr = curr->right;
+                }
             }
         }
     }
