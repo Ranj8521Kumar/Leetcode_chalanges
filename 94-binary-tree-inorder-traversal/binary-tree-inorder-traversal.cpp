@@ -76,22 +76,24 @@ class Solution {
     void morrisTraversal(TreeNode* root, vector<int> &result){
         TreeNode* curr = root;
 
-        while(curr){
-            if(curr->left == NULL){
+        while (curr != nullptr) {
+            if (curr->left == nullptr) {
+                // Case 1: No left child, visit node and move right
                 result.push_back(curr->val);
                 curr = curr->right;
-            }else{
+            } else {
+                // Case 2: Has left child -> find predecessor
                 TreeNode* predecessor = curr->left;
-                while(predecessor->right != nullptr && predecessor->right != curr){
+                while (predecessor->right != nullptr && predecessor->right != curr) {
                     predecessor = predecessor->right;
                 }
 
-                if(predecessor->right == nullptr){
-                    //make thread
+                if (predecessor->right == nullptr) {
+                    // Create a thread from predecessor to current node
                     predecessor->right = curr;
                     curr = curr->left;
-                }else{
-                    //remove thread
+                } else {
+                    // Thread already exists: remove it and visit current
                     predecessor->right = nullptr;
                     result.push_back(curr->val);
                     curr = curr->right;
