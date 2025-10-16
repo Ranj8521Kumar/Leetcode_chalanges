@@ -4,6 +4,8 @@ public:
         // Straight Line: y = mx + c
         int n = coordinates.size();
         if(n == 2) return true;
+
+        sort(coordinates.begin(), coordinates.end());
         
         bool yAxis = true;
         int temp = coordinates[0][0];
