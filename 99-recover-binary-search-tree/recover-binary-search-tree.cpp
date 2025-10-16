@@ -55,31 +55,86 @@
 // Second Approach, without using the extra space
 class Solution {
 public:
-    TreeNode* firstNode = nullptr;
-    TreeNode* secondNode = nullptr;
-    TreeNode* prevNode = new TreeNode(INT_MIN);
+//     TreeNode* firstNode = nullptr;
+//     TreeNode* secondNode = nullptr;
+//     TreeNode* prevNode = new TreeNode(INT_MIN);
 
-    void inOrder(TreeNode* root){
-        if(!root) return;
+//     void inOrder(TreeNode* root){
+//         if(!root) return;
 
-        inOrder(root->left);
-        if(prevNode && prevNode->val > root->val){
-            if(!firstNode){
-                firstNode = prevNode;
-            }
-            secondNode = root;
-        }
-        prevNode = root;
+//         inOrder(root->left);
+//         if(prevNode && prevNode->val > root->val){
+//             if(!firstNode){
+//                 firstNode = prevNode;
+//             }
+//             secondNode = root;
+//         }
+//         prevNode = root;
 
-        inOrder(root->right);
-    }
+//         inOrder(root->right);
+//     }
 
+//     void recoverTree(TreeNode* root) {
+//         if(!root) return;
+//         inOrder(root);
+
+//         if(firstNode && secondNode){
+//             swap(firstNode->val, secondNode->val);
+//         }
+//     }
+
+
+
+
+
+
+    // --------------------------------------------------- //
+    // Using Morris Traversal: for getting O(1) space:
     void recoverTree(TreeNode* root) {
-        if(!root) return;
-        inOrder(root);
+        TreeNode* curr = root;
+        TreeNode* first = nullptr;
+        TreeNode* second = nullptr;
+        TreeNode* prev = new TreeNode(INT_MIN);
 
-        if(firstNode && secondNode){
-            swap(firstNode->val, secondNode->val);
+        while(curr){
+            if(curr->left == nullptr){
+                if(prev && prev->val > curr->val){
+                    if(!first){
+                        first = prev;
+                    }
+
+                    second = curr;
+                }
+
+                prev = curr;
+                curr = curr->right;
+            }else{
+                TreeNode* pre = curr->left;
+                while(pre->right != nullptr && pre->right != curr){
+                    pre = pre->right;
+                }
+
+                if(pre->right == nullptr){
+                    pre->right = curr;
+                    curr = curr->left;
+                }else{
+                    pre->right = nullptr;
+
+                    if(prev && prev->val > curr->val){
+                        if(!first){
+                            first = prev;
+                        }
+                        second = curr;
+                    }
+
+                    prev = curr;
+                    curr = curr->right;
+                }
+            }
+        }
+
+        if(first && second){
+            swap(first->val, second->val);
         }
     }
 };
