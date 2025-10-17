@@ -7,7 +7,7 @@ public:
             mpp[ch]++;
         }
 
-        vector<pair<int, int>> vec(mpp.begin(), mpp.end());
+        vector<pair<char, int>> vec(mpp.begin(), mpp.end());
         sort(vec.begin(), vec.end(), [&](auto &p1, auto &p2){
             return p1.second > p2.second;
         });
