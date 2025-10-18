@@ -43,27 +43,29 @@
 //     }
 // };
 
-
+// ----------------------------------------------------------- //
+// Without taking an extra space: like recursion or stack --> Using Morris Inorder Traversal
 
 class Solution {
 public:
     TreeNode* increasingBST(TreeNode* root) {
+        // Since Here root Node is going to change: LeftMostNode = rootNode, So declare a new Tree with dummy Node
         TreeNode* dummy = new TreeNode(-1);
         TreeNode* prev = dummy;
         TreeNode* curr = root;
 
-        while (curr) {
-            if (curr->left == nullptr) {
+        while(curr){
+            if(curr->left == nullptr){
                 prev->right = curr;
                 prev = curr;
-                curr = curr->right;
-            } else {
-                TreeNode* predecessor = curr->left;
-                while (predecessor->right != nullptr) {
-                    predecessor = predecessor->right;
+                curr = curr->right; 
+            }else{
+                TreeNode* pre = curr->left;
+                while(pre->right != nullptr){
+                    pre = pre->right;
                 }
 
-                predecessor->right = curr;
+                pre->right = curr;
                 TreeNode* temp = curr->left;
                 curr->left = nullptr;
                 curr = temp;
