@@ -66,9 +66,7 @@ public:
 
         for(int i = 1; i<n; i+=2){
             vector<TreeNode*> Left = solve(i);
-            mpp[i] = Left;
             vector<TreeNode*> Right = solve(n - i - 1);
-            mpp[n-i-1] = Right;
 
             for(auto &lft: Left){
                 for(auto &rht: Right){
@@ -81,7 +79,7 @@ public:
             }
         }
 
-        return result;
+        return mpp[n] = result;
     }
 
     vector<TreeNode*> allPossibleFBT(int n) {
